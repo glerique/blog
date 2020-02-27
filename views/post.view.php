@@ -1,6 +1,6 @@
 <section class="hero-banner d-flex align-items-center">
         <div class="container text-center">
-            <h2>Ajouter</h2>            
+            <h2>Fiche</h2>            
         </div>
     </section>
  
