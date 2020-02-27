@@ -1,6 +1,6 @@
 <section class="hero-banner d-flex align-items-center">
         <div class="container text-center">
-            <h2>Fiche</h2>            
+            <h2>Ajouter</h2>            
         </div>
     </section>
  
@@ -8,59 +8,58 @@
     <div class="container">
               <div class="row">
         <div class="col-12">
-          <h2 class="contact-title">Fiche</h2>
-          <?php
-        $post = $manager->getPost($_GET['id']);
-        ?>
+          <h2 class="contact-title">Ajouter</h2>
         </div>
         <div class="col-lg-8">
           <form class="form-contact contact_form" method="post">
             <div class="row">           
               <div class="col-12">
                 <div class="form-group">
-                    Id : <input class="form-control" type="text" name="id" value="<?= $post->getId(); ?>" disabled>
+                    Id : <input class="form-control" type="text" name="id">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Titre : <input class="form-control" type="text" name="titre" value="<?= $post->getTitre(); ?>" disabled>
+                  Titre : <input class="form-control" type="text" name="titre">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Chapo : <input class="form-control" type="text" name="chapo" value="<?= $post->getChapo(); ?>" disabled>
+                  Chapo : <input class="form-control" type="text" name="chapo">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Contenu : <input class="form-control" type="text" name="contenu" value="<?= $post->getContenu(); ?>" disabled>
+                  Contenu : <input class="form-control" type="text" name="contenu">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Date ajout : <input class="form-control" type ="date" name="dateAjout"  value="<?= $post->getDateAjout(); ?>" disabled>
+                  Date ajout : <input class="form-control" type ="date" name="dateAjout">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Date modification : <input class="form-control" type ="date" name="dateModification" value="<?= $post->getDateModification(); ?>" disabled>
+                  Date modification : <input class="form-control" type ="date" name="dateModification">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Statut : <input class="form-control" type="text" name="statut"  value="<?= $post->getStatut(); ?>" disabled>
+                  Statut : <input class="form-control" type="text" name="statut">
                 </div>
               </div>
               <div class="col-12">
                 <div class="form-group">
-                UtilisateurID : <input class="form-control" type="text" name="utilisateurId" value="<?= $post->getUtilisateurId(); ?>" disabled>
+                UtilisateurID : <input class="form-control" type="text" name="utilisateurId">
                 </div>
               </div>
             </div>
             <div class="form-group mt-3">
-            <a href="index.php">Retour</a>
+           <input type="submit" class="button button-contactForm" name="ajouter" value="poster">
             </div>
           </form>
+
+
         </div>       
       </div>
     </div>

@@ -22,7 +22,7 @@ class PostManager extends Database{
   }
 
   public function addPost(Post $post){
-    $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId)
+    $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu,  dateAjout,  dateModification, statut, utilisateurId)
     VALUES(:titre, :chapo, :contenu, :dateAjout, :dateModification, :statut, :utilisateurId)');
     $query->bindValue(':titre', $post->getTitre());
     $query->bindValue(':chapo', $post->getChapo());
@@ -34,8 +34,9 @@ class PostManager extends Database{
     $query->execute();
   }
 
-  public function deletePost(Post $post){
-    $this->db->exec('DELETE FROM post WHERE id = '.$post->getId());
+  public function deletePost($id){
+    $query= $this->db->query('DELETE FROM post WHERE id = '.$id);
+    $query->execute();
   }
 
   public function getPost($id){
@@ -55,10 +56,23 @@ class PostManager extends Database{
       $posts[] = new Post($donnees);
     }
 
-    return $posts;   
+    return $posts;    
+   
   }
 
-  
+  public function updatePost(Post $post){
+    $query = $this->db->prepare('UPDATE post SET titre = :titre, chapo = :chapo, contenu = :contenu, dateAjout = :dateAjout, 
+                                                 dateModification = :dateModification, statut = :statut, utilisateurId = :utilisateurId  WHERE id = :id');
+    $query->bindValue(':titre', $post->getTitre());   
+    $query->bindValue(':chapo', $post->getChapo());
+    $query->bindValue(':contenu', $post->getContenu());
+    $query->bindValue(':dateAjout', $post->getDateAjout());
+    $query->bindValue(':dateModification', $post->getDateModification());
+    $query->bindValue(':statut', $post->getStatut());
+    $query->bindValue(':utilisateurId', $post->getUtilisateurId());
+    $query->bindValue(':id', $post->getId());
+    $query->execute();
+  }
  
 }
 
