@@ -1,17 +1,13 @@
 <section class="hero-banner d-flex align-items-center">
         <div class="container text-center">
-            <h2>Fiche</h2>            
+            <h2>Afficher</h2>            
         </div>
-    </section>
- 
+    </section> 
     <section class="contact-section area-padding">
     <div class="container">
               <div class="row">
         <div class="col-12">
-          <h2 class="contact-title">Fiche</h2>
-          <?php
-        $post = $manager->getPost($_GET['id']);
-        ?>
+          <h2 class="contact-title">Fiche</h2>         
         </div>
         <div class="col-lg-8">
           <form class="form-contact contact_form" method="post">
@@ -58,7 +54,7 @@
               </div>
             </div>
             <div class="form-group mt-3">
-            <a href="index.php">Retour</a>
+            <a href="index.php?controler=Post&action=accueil"><input type="button" class="button button-contactForm" value ="Retour"></a>
             </div>
           </form>
         </div>       
