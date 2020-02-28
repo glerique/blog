@@ -3,17 +3,14 @@
             <h2>Modifier</h2>            
         </div>
     </section>
-    <?php
-$post = $manager->getPost($_GET['id']);
-?>
-    <section class="contact-section area-padding">
+     <section class="contact-section area-padding">
     <div class="container">
               <div class="row">
         <div class="col-12">
           <h2 class="contact-title">Modifier</h2>
         </div>
         <div class="col-lg-8">
-          <form class="form-contact contact_form" method="post">
+          <form class="form-contact contact_form" method="post" action="index.php?controller=Post&action=modifierPost">
             <div class="row">           
               <div class="col-12">
                 <div class="form-group">
@@ -60,8 +57,6 @@ $post = $manager->getPost($_GET['id']);
            <input type="submit" class="button button-contactForm" name="modifier" value="modifier">
             </div>
           </form>
-
-
         </div>       
       </div>
     </div>
