@@ -2,8 +2,7 @@
         <div class="container text-center">
             <h2>Ajouter</h2>            
         </div>
-    </section>
- 
+    </section> 
     <section class="contact-section area-padding">
     <div class="container">
               <div class="row">
@@ -11,7 +10,7 @@
           <h2 class="contact-title">Ajouter</h2>
         </div>
         <div class="col-lg-8">
-          <form class="form-contact contact_form" method="post">
+          <form class="form-contact contact_form" method="post" action="index.php?controller=Post&action=ajouterPost">
             <div class="row">           
               <div class="col-12">
                 <div class="form-group">
@@ -58,8 +57,6 @@
            <input type="submit" class="button button-contactForm" name="ajouter" value="poster">
             </div>
           </form>
-
-
         </div>       
       </div>
     </div>
