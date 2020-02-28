@@ -1,6 +1,6 @@
 <section class="hero-banner d-flex align-items-center">
     <div class="container text-center">
-        <h2>Liste <?php if (isset($_SESSION['droitId'])){echo $_SESSION['droitId'];} ?></h2>
+        <h2>Liste</h2>
     </div>
 </section>
 <section class="latest-blog-area area-padding">
@@ -16,14 +16,14 @@
                         <div class="percentage">Supprimer</div>
                     </div>
                     <?php
-                    foreach ($manager->getListPost() as $value) {
+                    foreach ($manager->getList() as $value) {
                     ?>
                         <div class="table-row">
 
                             <div class="serial"><?= $value->getId(); ?></div>
                             <div class="country"><?= $value->getTitre(); ?></div>
-                            <div class="visit"><a href="index.php?action=modifier&id=<?= $value->getId(); ?>">Modifier</a></div>
-                            <div class="percentage"><a href="index.php?action=supprimer&id=<?= $value->getId(); ?>">Supprimer</a></div>
+                            <div class="visit"><a href="index.php?controller=Post&action=modifier&id=<?= $value->getId(); ?>">Modifier</a></div>
+                            <div class="percentage"><a href="index.php?controller=Post&action=supprimer&id=<?= $value->getId(); ?>"  onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
                         </div>
                     <?php } ?>
                 </div>

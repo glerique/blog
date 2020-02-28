@@ -1,6 +1,7 @@
 <?php
-require_once('models/Database.php');
-require_once('models/Post.php');
+
+namespace models;
+
 
 class PostManager extends Database{
 
@@ -11,7 +12,7 @@ class PostManager extends Database{
     $this->setDb($db);
   }
 
-  public function setDb(PDO $db){
+  public function setDb(\PDO $db){
     $this->db = $db;
   }
 
@@ -21,7 +22,7 @@ class PostManager extends Database{
     return $count;
   }
 
-  public function addPost(Post $post){
+  public function add(Post $post){
     $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu,  dateAjout,  dateModification, statut, utilisateurId)
     VALUES(:titre, :chapo, :contenu, :dateAjout, :dateModification, :statut, :utilisateurId)');
     $query->bindValue(':titre', $post->getTitre());
@@ -34,33 +35,31 @@ class PostManager extends Database{
     $query->execute();
   }
 
-  public function deletePost($id){
+  public function delete($id){
     $query= $this->db->query('DELETE FROM post WHERE id = '.$id);
     $query->execute();
   }
 
-  public function getPost($id){
+  public function get($id){
     $id = (int) $id;
     $query = $this->db->query('SELECT id, titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId FROM post WHERE id = '.$id);
-    $donnees = $query->fetch(PDO::FETCH_ASSOC);
+    $donnees = $query->fetch(\PDO::FETCH_ASSOC);
     return new Post($donnees);
   }
 
 
-  public function getListPost(){
+  public function getList(){   
+    
     $posts= [];
-    $query = $this->db->query('SELECT id, titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId FROM post');
-   
+    $query = $this->db->query('SELECT id, titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId FROM post');   
     while ($donnees = $query->fetch())
     {
       $posts[] = new Post($donnees);
+    }     
+    return $posts;    
     }
 
-    return $posts;    
-   
-  }
-
-  public function updatePost(Post $post){
+  public function update(Post $post){
     $query = $this->db->prepare('UPDATE post SET titre = :titre, chapo = :chapo, contenu = :contenu, dateAjout = :dateAjout, 
                                                  dateModification = :dateModification, statut = :statut, utilisateurId = :utilisateurId  WHERE id = :id');
     $query->bindValue(':titre', $post->getTitre());   
@@ -75,5 +74,3 @@ class PostManager extends Database{
   }
  
 }
-
-?>

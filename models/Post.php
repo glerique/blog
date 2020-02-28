@@ -1,4 +1,7 @@
 <?php
+
+namespace models;
+
 class Post {
 
     private $id;
@@ -22,7 +25,7 @@ class Post {
         }
     }
 
-    // Important car sinon l'objet est vide à sa création.
+    // Important car sinon l'objet à sa création est vide.
     public function __construct(array $donnees){
         $this->hydrate($donnees);
     }
