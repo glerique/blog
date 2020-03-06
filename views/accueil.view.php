@@ -28,7 +28,7 @@
 
             <div class="row">
             <?php 
-      foreach($manager->getListPost() as $value){ 
+      foreach($manager->getList() as $value){ 
         ?>  
                 <div class="col-lg-4 col-md-6 ">
                 <a href = "index.php?action=afficher&id=<?= $value->getId(); ?>">
