@@ -1,5 +1,5 @@
 <?php
-namespace Models;
+namespace models;
 class UserManager extends Database
 {
 
@@ -69,18 +69,15 @@ class UserManager extends Database
         $query->bindValue(':userRole', $user->getUserRole());        
         $query->bindValue(':id', $user->getId());
         $query->execute();
-      }
+      }    
 
-    public function authentification($nickname, $pswd)
+    public function getByEmail($email)
     {
-        $query = $this->db->query("SELECT id, nickname, pswd, userRole FROM user WHERE nickname ='$nickname' AND pswd ='$pswd'");
-        $data = $query->fetch();
-
-        if (!$data) {
-            require('views/login.view.php');
-            echo 'Mauvais identifiant ou mot de passe !';
-        } else {
-            return new User($data);            
-        }
+      $query = $this->db->prepare('SELECT * FROM user WHERE email = :email');
+      $query->execute([':email' => $email]);     
+      return $query->fetch(\PDO::FETCH_ASSOC);
+      /*$data = $query->fetch(\PDO::FETCH_ASSOC);
+      return new User($data);
+      */      
     }
 }
