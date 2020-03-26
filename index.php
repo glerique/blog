@@ -1,7 +1,6 @@
 <?php
-require('includes/header.php');
-
 require('autoload.php');
+require('includes/header.php');
 
 \models\Router::invoke();
 
