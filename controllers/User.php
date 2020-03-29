@@ -16,21 +16,16 @@ class User{
         require('views/home.view.php'); 
     }        
     
-    function displayUser(){
-        //Affiche la fiche produit en fonction de l'id recupéré par GET    
-        $manager = new $this->modelManager;        
-        $user= $manager->get($_GET['id']);
-        require('views/user.view.php');
-    }
     
     function addUser(){                
-        $manager = new $this->modelManager;          
+        $manager = new $this->modelManager;        
+        $password = password_hash($_POST['pswd'], PASSWORD_DEFAULT);      
         $user = new \models\User([
                 'lastName' => $_POST['lastName'], 
                 'firstName' => $_POST['firstName'], 
                 'email' => $_POST['email'], 
                 'nickname' => $_POST['nickname'], 
-                'pswd' => $_POST['pswd'], 
+                'pswd' => $password, 
                 'userRole' => $_POST['userRole']
             ]);
      
@@ -41,8 +36,7 @@ class User{
     function update(){
         $manager = new $this->modelManager;
         $user = $manager->get($_GET['id']);
-        require('views/updateUser.view.php'); 
-        
+        require('views/updateUser.view.php');        
     }
 
     function ajouter(){
@@ -85,6 +79,83 @@ class User{
         $manager = new $this->modelManager;       
         $manager->delete($id);               
         require('views/listUser.view.php');
-    }    
+    } 
+    
+    public function formLogin()
+    {
+        $manager = $this->modelManager;
+        require('views/login.view.php');
+    }
+ 
+    public function authentification()
+    {
+        $email = $_POST['email'];
+        $pswd = $_POST['pswd'];
+        
+        if (!$email || !$pswd) {
+            $this->redirectBackWithError("Le formulaire a été mal rempli");
+        }
+        
+        $manager = $this->modelManager;
+        $user = $manager->getByEmail($email); 
+        
+        if (!$user) {
+            $this->redirectBackWithError("Aucun compte utilisateur ne possède cette adresse email");
+        }
+        
+        $verif = password_verify($pswd, $user['pswd']);                    		
+         
+        if (!$verif) {
+            $this->redirectBackWithError("Le mot de passe ne correspond au compte utilisateur trouvé");
+        }
+        else {   
+
+        \models\Session::connect($user);                      
+           
+
+        $this->redirectWithSuccess(
+            "index.php",
+            "Bravo <strong>$user[firstName]</strong>, vous êtes désormais connecté(e) au blog !"
+        );
+        }
+       
+    }
+
+    public function logout()
+    {
+        \models\Session::disconnect();
+
+        $this->redirectWithSuccess(
+            "index.php",
+            "Vous êtes désormais déconnecté !"
+        );
+    }
+
+    protected function redirectWithError(string $url, string $message)
+    {
+        \models\Session::addFlash('error', $message);
+        \models\Http::redirect($url);
+    }
+    
+    protected function redirectWithSuccess(string $url, string $message)
+    {
+        \models\Session::addFlash('success', $message);
+        \models\Http::redirect($url);
+    }
+
+    protected function redirectBackWithError(string $message)
+    {
+        $url = $_SERVER['HTTP_REFERER'];
+        $this->redirectWithError($url, $message);
+    }
+
+    
+    protected function redirectBackWithSuccess(string $message)
+    {
+        $url = $_SERVER['HTTP_REFERER'];
+        $this->redirectWithSuccess($url, $message);
+    }
+    
+    
 }
 ?>

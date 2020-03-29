@@ -17,10 +17,9 @@
     <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 <body>
-
     <!--================Header Menu Area =================-->
     <header class="header_area">	
-        <div class="main_menu">
+        <div class="main_menu">        
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->                    
@@ -34,24 +33,40 @@
                         <ul class="nav navbar-nav menu_nav ml-auto">
                             <li class="nav-item"><a class="nav-link" href="index.php?action=accueil">Accueil</a></li>  
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                            <?php if (\models\Session::isAdmin()) { ?>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articles</a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="index.php?action=ajouter">Ajouter article</a></li> 
-                                    <li class="nav-item"><a class="nav-link" href="index.php?action=liste">Liste articles</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=ajouter">Ajouter utilisateur</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=liste">Liste utilisateurs</a></li>                                      
+                                    <li class="nav-item"><a class="nav-link" href="index.php?action=liste">Liste articles</a></li>                                                                       
                                 </ul>
-                            </li>  
+                            </li>
+                                <?php }?>
+                            <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=formLogin">Login</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=logout">Logout</a></li>    
                         </ul>
                     </div>
                     <div class="right-button">
                         <ul>                            
-                            <li><a class="sign_up" href="">Inscription</a></li>
+                            <li><a class="sign_up" href="index.php?controller=User&action=ajouter">Inscription</a></li>
                         </ul>
                     </div> 
                 </div>
-            </nav>
+            </nav>                        
         </div>
+        <?php if (\models\Session::showFlashes('error')): ?>
+                <div class="alert alert-danger" role="alert">
+				<?php foreach (\models\Session::getFlashes('error') as $message): ?>
+					<p><?=$message?></p>
+				<?php endforeach?>
+			</div>
+		<?php endif?>
+        <?php if (\models\Session::showFlashes('success')): ?>
+			<div class="alerts success">
+				<?php foreach (\models\Session::getFlashes('success') as $message): ?>
+					<p><?=$message?></p>
+				<?php endforeach?>
+			</div>
+		<?php endif?>		
     </header>
      <!--================Home Banner Area =================-->
-     
+    
