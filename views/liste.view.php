@@ -16,7 +16,7 @@
                         <div class="percentage">Supprimer</div>
                     </div>
                     <?php
-                    foreach ($manager->getList() as $value) {
+                    foreach ($posts as $value) {
                     ?>
                         <div class="table-row">
 
