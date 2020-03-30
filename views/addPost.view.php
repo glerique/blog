@@ -11,12 +11,7 @@
         </div>
         <div class="col-lg-8">
           <form class="form-contact contact_form" method="post" action="index.php?controller=Post&action=ajouterPost">
-            <div class="row">           
-              <div class="col-12">
-                <div class="form-group">
-                    Id : <input class="form-control" type="text" name="id">
-                </div>
-              </div>
+            <div class="row">             
               <div class="col-12">
                 <div class="form-group">
                   Titre : <input class="form-control" type="text" name="titre">
@@ -31,27 +26,7 @@
                 <div class="form-group">
                   Contenu : <input class="form-control" type="text" name="contenu">
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Date ajout : <input class="form-control" type ="date" name="dateAjout">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Date modification : <input class="form-control" type ="date" name="dateModification">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Statut : <input class="form-control" type="text" name="statut">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                UtilisateurID : <input class="form-control" type="text" name="utilisateurId">
-                </div>
-              </div>
+              </div>     
             </div>
             <div class="form-group mt-3">
            <input type="submit" class="button button-contactForm" name="ajouter" value="poster">
