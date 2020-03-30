@@ -24,21 +24,19 @@
                         <p>Life firmament under them evening make after called dont saying likeness<br> isn't wherein also forth she'd air two without</p>
                     </div>           
                 </div>
-            </div>
-
+            </div>          
             <div class="row">
             <?php 
-      foreach($manager->getList() as $value){ 
+      foreach($posts as $value){ 
         ?>  
                 <div class="col-lg-4 col-md-6 ">
-                <a href = "index.php?action=afficher&id=<?= $value->getId(); ?>">
+                <a href = "index.php?controller=Post&action=afficher&id=<?= $value->getId(); ?>">
                     <div class="single-blog">
                         <div class="thumb">
                             <img class="img-fluid w-100" src="assets/img/blog/2.png" alt="">
                         </div>
-                        <div class="single-blog-content">
-                            <p class="tag">Software / Business</p>
-                            <p class="date"><?= $value->getDateAjout(); ?> </p>
+                        <div class="single-blog-content">                            
+                            <p class="date">Article ecrit le <?= $value->getDateAjout(); ?> </p>
                             <h4>
                             <?= ucfirst ($value->getTitre()); ?>
                             </h4>

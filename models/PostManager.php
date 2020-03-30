@@ -23,13 +23,12 @@ class PostManager extends Database{
   }
 
   public function add(Post $post){
-    $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu,  dateAjout,  dateModification, statut, utilisateurId)
-    VALUES(:titre, :chapo, :contenu, :dateAjout, :dateModification, :statut, :utilisateurId)');
+    $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu,  dateAjout, statut, utilisateurId)
+    VALUES(:titre, :chapo, :contenu, :dateAjout, :statut, :utilisateurId)');
     $query->bindValue(':titre', $post->getTitre());
     $query->bindValue(':chapo', $post->getChapo());
     $query->bindValue(':contenu', $post->getContenu());
-    $query->bindValue(':dateAjout', $post->getDateAjout());
-    $query->bindValue(':dateModification', $post->getDateModification());
+    $query->bindValue(':dateAjout', $post->getDateAjout());    
     $query->bindValue(':statut', $post->getStatut());
     $query->bindValue(':utilisateurId', $post->getUtilisateurId());
     $query->execute();
@@ -42,7 +41,8 @@ class PostManager extends Database{
 
   public function get($id){
     $id = (int) $id;
-    $query = $this->db->query('SELECT id, titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId FROM post WHERE id = '.$id);
+    $query = $this->db->query('SELECT id, titre, chapo, contenu, date_format(dateAjout,"%d/%m/%Y") AS dateAjout, 
+                                    date_format(dateModification,"%d/%m/%Y") AS dateModification, statut, utilisateurId FROM post WHERE id = '.$id);
     $donnees = $query->fetch(\PDO::FETCH_ASSOC);
     return new Post($donnees);
   }
@@ -51,7 +51,8 @@ class PostManager extends Database{
   public function getList(){   
     
     $posts= [];
-    $query = $this->db->query('SELECT id, titre, chapo, contenu, dateAjout, dateModification, statut, utilisateurId FROM post');   
+    $query = $this->db->query('SELECT id, titre, chapo, contenu, date_format(dateAjout,"%d/%m/%Y") AS dateAjout,
+                                   date_format(dateModification,"%d/%m/%Y") AS dateModification, statut, utilisateurId FROM post');   
     while ($donnees = $query->fetch())
     {
       $posts[] = new Post($donnees);
@@ -60,12 +61,11 @@ class PostManager extends Database{
     }
 
   public function update(Post $post){
-    $query = $this->db->prepare('UPDATE post SET titre = :titre, chapo = :chapo, contenu = :contenu, dateAjout = :dateAjout, 
+    $query = $this->db->prepare('UPDATE post SET titre = :titre, chapo = :chapo, contenu = :contenu,  
                                                  dateModification = :dateModification, statut = :statut, utilisateurId = :utilisateurId  WHERE id = :id');
     $query->bindValue(':titre', $post->getTitre());   
     $query->bindValue(':chapo', $post->getChapo());
-    $query->bindValue(':contenu', $post->getContenu());
-    $query->bindValue(':dateAjout', $post->getDateAjout());
+    $query->bindValue(':contenu', $post->getContenu());    
     $query->bindValue(':dateModification', $post->getDateModification());
     $query->bindValue(':statut', $post->getStatut());
     $query->bindValue(':utilisateurId', $post->getUtilisateurId());

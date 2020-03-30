@@ -1,63 +1,97 @@
 <section class="hero-banner d-flex align-items-center">
-        <div class="container text-center">
-            <h2>Afficher</h2>            
+  <div class="container text-center">
+    <h2>Afficher</h2>
+  </div>
+</section>
+
+<!--================Blog Area =================-->
+<section class="blog_area single-post-area area-padding">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 posts-list">
+        <div class="single-post">
+          <div class="feature-img">
+            <img class="img-fluid" src="assets/img/blog/m-blog-2.jpg" alt="">
+          </div>
+          <div class="blog_details">
+            <h2><?= $post->getTitre(); ?></h2>
+            <p class="date"></p>
+            <p class="excert">
+              <?= $post->getChapo(); ?>
+            </p>
+
+            <p class="excert">
+              <?= $post->getContenu(); ?>
+            </p>
+            <div class="d-flex align-items-center">
+
+
+
+              <p class="date">Dernirer modification : <?= $post->getDateModification(); ?></p>
+
+            </div>
+            <p class="date">Autheur : <?= $post->getUtilisateurId(); ?></p>
+          </div>
         </div>
-    </section> 
-    <section class="contact-section area-padding">
-    <div class="container">
-              <div class="row">
-        <div class="col-12">
-          <h2 class="contact-title">Fiche</h2>         
-        </div>
-        <div class="col-lg-8">
-          <form class="form-contact contact_form" method="post">
-            <div class="row">           
-              <div class="col-12">
-                <div class="form-group">
-                    Id : <input class="form-control" type="text" name="id" value="<?= $post->getId(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Titre : <input class="form-control" type="text" name="titre" value="<?= $post->getTitre(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Chapo : <input class="form-control" type="text" name="chapo" value="<?= $post->getChapo(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Contenu : <input class="form-control" type="text" name="contenu" value="<?= $post->getContenu(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Date ajout : <input class="form-control" type ="date" name="dateAjout"  value="<?= $post->getDateAjout(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Date modification : <input class="form-control" type ="date" name="dateModification" value="<?= $post->getDateModification(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Statut : <input class="form-control" type="text" name="statut"  value="<?= $post->getStatut(); ?>" disabled>
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                UtilisateurID : <input class="form-control" type="text" name="utilisateurId" value="<?= $post->getUtilisateurId(); ?>" disabled>
+
+        <div class="comments-area">
+          <h4>Commentaires</h4>
+          <div class="comment-list">
+            <div class="single-comment justify-content-between d-flex">
+              <div class="user justify-content-between d-flex">
+                <div class="desc">
+                  <p class="comment">
+                    Multiply sea night grass fourth day sea lesser rule open subdue female fill
+                    which them Blessed, give fill lesser bearing multiply sea night grass fourth
+                    day sea lesser
+                  </p>
+
+                  <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-center">
+                      <h5>
+                        <a href="#">Emilly Blunt</a>
+                      </h5>
+                      <p class="date">December 4, 2017 at 3:12 pm </p>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
-            <div class="form-group mt-3">
-            <a href="index.php?controler=Post&action=accueil"><input type="button" class="button button-contactForm" value ="Retour"></a>
+          </div>
+
+        </div>
+        <div class="comment-form">
+          <h4>Laissez un commentaire</h4>
+          <form class="form-contact comment_form" action="#" id="commentForm">
+            <div class="row">
+              <div class="col-12">
+                <div class="form-group">
+                  <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input class="form-control" name="name" id="name" type="text" placeholder="Name">
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <input class="form-control" name="email" id="email" type="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  <input class="form-control" name="website" id="website" type="text" placeholder="Website">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="button button-contactForm">Send Message</button>
             </div>
           </form>
-        </div>       
+        </div>
       </div>
     </div>
+  </div>
 </section>

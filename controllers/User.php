@@ -11,11 +11,7 @@ class User{
                 $this->modelManager = new \models\UserManager();        
     }
     
-    function home(){
-        $manager = $this->modelManager;
-        require('views/home.view.php'); 
-    }        
-    
+      
     
     function addUser(){                
         $manager = new $this->modelManager;        
@@ -30,17 +26,20 @@ class User{
             ]);
      
      $manager->add($user);     
-     require('views/listUser.view.php');               
+     $this->redirectWithSuccess(
+        "index.php?controller=User&action=liste",
+        "Utilisateur modifié avec succès !"
+    );               
     }
 
     function update(){
         $manager = new $this->modelManager;
         $user = $manager->get($_GET['id']);
-        require('views/updateUser.view.php');        
+        \models\Renderer::render("updateUser", compact('user'));        
     }
 
     function ajouter(){
-        require('views/addUser.view.php');
+        \models\Renderer::render("addUser");
     }
 
     function updateUser(){
@@ -66,25 +65,31 @@ class User{
 
         $manager->update($user);
         $manager = new $this->modelManager;
-        require('views/listUser.view.php');
+        $this->redirectWithSuccess(
+            "index.php?controller=user&action=liste",
+            "Utilisateur modifié avec succès !"
+        );
     }
 
     function liste(){
         $manager = new $this->modelManager;
-        require('views/listUser.view.php');
+        $users = $manager->getList();
+        \models\Renderer::render("listUser", compact('users'));
     }
 
     function delete(){
         $id = $_GET['id'];
         $manager = new $this->modelManager;       
         $manager->delete($id);               
-        require('views/listUser.view.php');
+        $this->redirectWithSuccess(
+            "index.php?action=liste",
+            "User supprimé avec succès !"
+        );
     } 
     
     public function formLogin()
     {
-        $manager = $this->modelManager;
-        require('views/login.view.php');
+            \models\Renderer::render("login");
     }
  
     public function authentification()

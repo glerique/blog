@@ -31,18 +31,23 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.php?action=accueil">Accueil</a></li>  
+                            <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=accueil">Accueil</a></li>  
                             <li class="nav-item submenu dropdown">
                             <?php if (\models\Session::isAdmin()) { ?>
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Articles</a>
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrateur</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="index.php?action=ajouter">Ajouter article</a></li> 
-                                    <li class="nav-item"><a class="nav-link" href="index.php?action=liste">Liste articles</a></li>                                                                       
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=ajouter">Ajouter article</a></li> 
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=liste">Liste articles</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=liste">Liste utilisateurs</a></li>                                                                          
                                 </ul>
                             </li>
                                 <?php }?>
+                                <?php if (!\models\Session::isConnected()) { ?>   
                             <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=formLogin">Login</a></li>
-                            <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=logout">Logout</a></li>    
+                                <?php } 
+                                if (\models\Session::isConnected()) { ?>
+                            <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=logout">Logout</a></li>
+                                <?php }?>    
                         </ul>
                     </div>
                     <div class="right-button">
@@ -61,12 +66,12 @@
 			</div>
 		<?php endif?>
         <?php if (\models\Session::showFlashes('success')): ?>
-			<div class="alerts success">
+			<div class="alert alert-success">
 				<?php foreach (\models\Session::getFlashes('success') as $message): ?>
 					<p><?=$message?></p>
 				<?php endforeach?>
 			</div>
 		<?php endif?>		
     </header>
-     <!--================Home Banner Area =================-->
+    <body>
     

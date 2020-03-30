@@ -14,7 +14,7 @@
             <div class="row">           
               <div class="col-12">
                 <div class="form-group">
-                    Id : <input class="form-control" type="text" name="id" value="<?= $post->getId(); ?>">
+                        <input class="form-control" type="hidden" name="id" value="<?= $post->getId(); ?>">
                 </div>
               </div>
               <div class="col-12">
@@ -31,25 +31,18 @@
                 <div class="form-group">
                   Contenu : <input class="form-control" type="text" name="contenu" value="<?= $post->getContenu(); ?>">
                 </div>
+              </div>             
+              <div class="col-12">
+                <div class="form-group">
+                  Statut : <select class="form-control" name="statut">
+                <option value="Attente" <?php if($post->getStatut()=="Attente") {echo "selected";} ?>>En attente</option>
+                <option value="Publié"  <?php if($post->getStatut()=="Publié") {echo "selected";} ?>>Publié</option>                           
+                </select>
+                </div>               
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Date ajout : <input class="form-control" type ="date" name="dateAjout" value="<?= $post->getDateAjout(); ?>">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Date modification : <input class="form-control" type ="date" name="dateModification" value="<?= $post->getDateModification(); ?>">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Statut : <input class="form-control" type="text" name="statut" value="<?= $post->getStatut(); ?>">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                UtilisateurID : <input class="form-control" type="text" name="utilisateurId" value="<?= $post->getUtilisateurId(); ?>">
+                          <input class="form-control" type="hidden" name="utilisateurId" value="<?= $post->getUtilisateurId(); ?>">
                 </div>
               </div>
             </div>
