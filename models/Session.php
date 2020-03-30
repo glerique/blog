@@ -28,10 +28,7 @@ class Session
 
     public static function disconnect()
     {
-        $_SESSION['connected'] = false;
-        $_SESSION['user'] = null;
-        $_SESSION['admin'] = false;
-        $_SESSION['member'] = false;
+        session_destroy();
     }
 
     public static function addFlash(string $type, string $message)
