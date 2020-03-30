@@ -17,7 +17,7 @@
                         <div class="serial">Supprimer</div>
                     </div>
                     <?php
-                    foreach ($manager->getList() as $value) {
+                    foreach ($users as $value) {
                     ?>
                         <div class="table-row">
                             <div class="serial"><?= $value->getId(); ?></div>
