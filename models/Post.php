@@ -5,13 +5,13 @@ namespace models;
 class Post {
 
     private $id;
-    private $titre;
-    private $chapo;
-    private $contenu;
-    private $dateAjout;
-    private $dateModification;
-    private $statut;
-    private $utilisateurId;
+    private $title;
+    private $standfirst;
+    private $content;
+    private $creationDate;
+    private $modificationDate;
+    private $published;
+    private $userId;
 
     public function hydrate(array $donnees){
         foreach ($donnees as $key => $value){   
@@ -36,32 +36,32 @@ class Post {
         return $this->id;
     }
 
-    function getTitre(){
-        return $this->titre;
+    function getTitle(){
+        return $this->title;
     }
 
-    function getChapo(){
-        return $this->chapo;
+    function getStandfirst(){
+        return $this->standfirst;
     }
 
-    function getContenu(){
-        return $this->contenu;
+    function getContent(){
+        return $this->content;
     }
 
-    function getDateAjout(){
-        return $this->dateAjout;
+    function getCreationDate(){
+        return $this->creationDate;
     }
 
-    function getDateModification(){
-        return $this->dateModification;
+    function getModificationDate(){
+        return $this->modificationDate;
     }
 
-    function getStatut(){
-        return $this->statut;
+    function getPublished(){
+        return $this->published;
     }
 
-    function getUtilisateurId(){
-        return $this->utilisateurId;
+    function getUserId(){
+        return $this->userId;
     }
 
     //SETTERS
@@ -70,31 +70,31 @@ class Post {
         $this->id = $id;
     }
 
-    function setTitre($titre){
-        $this->titre = $titre;
+    function setTitle($title){
+        $this->title = $title;
     }
     
-    function setChapo($chapo){
-        $this->chapo = $chapo;
+    function setStandfirst($standfirst){
+        $this->standfirst = $standfirst;
     }  
 
-    function setContenu($contenu){
-        $this->contenu = $contenu;
+    function setContent($content){
+        $this->content = $content;
     }  
 
-    function setDateAjout($dateAjout){
-        $this->dateAjout = $dateAjout;
+    function setCreationDate($creationDate){
+        $this->creationDate = $creationDate;
     }  
 
-    function setDateModification($dateModification){
-        $this->dateModification = $dateModification;
+    function setModificationDate($modificationDate){
+        $this->modificationDate = $modificationDate;
     }
     
-    function setStatut($statut){
-        $this->statut = $statut;
+    function setPublished($published){
+        $this->published = $published;
     }  
 
-    function setUtilisateurId($utilisateurId){
-        $this->utilisateurId = $utilisateurId;
+    function setUserId($userId){
+        $this->userId = $userId;
     }   
 }

@@ -14,23 +14,23 @@
             <img class="img-fluid" src="assets/img/blog/m-blog-2.jpg" alt="">
           </div>
           <div class="blog_details">
-            <h2><?= $post->getTitre(); ?></h2>
+            <h2><?= $post->getTitle(); ?></h2>
             <p class="date"></p>
             <p class="excert">
-              <?= $post->getChapo(); ?>
+              <?= $post->getStandfirst(); ?>
             </p>
 
             <p class="excert">
-              <?= $post->getContenu(); ?>
+              <?= $post->getContent(); ?>
             </p>
             <div class="d-flex align-items-center">
 
 
 
-              <p class="date">Dernirer modification : <?= $post->getDateModification(); ?></p>
+              <p class="date">Dernirer modification : <?= $post->getModificationDate(); ?></p>
 
             </div>
-            <p class="date">Autheur : <?= $post->getUtilisateurId(); ?></p>
+            <p class="date">Autheur : <?= $post->getUserId(); ?></p>
           </div>
         </div>
 

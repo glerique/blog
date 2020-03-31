@@ -23,14 +23,14 @@ class PostManager extends Database{
   }
 
   public function add(Post $post){
-    $query = $this->db->prepare('INSERT INTO post(titre, chapo, contenu,  dateAjout, statut, utilisateurId)
-    VALUES(:titre, :chapo, :contenu, :dateAjout, :statut, :utilisateurId)');
-    $query->bindValue(':titre', $post->getTitre());
-    $query->bindValue(':chapo', $post->getChapo());
-    $query->bindValue(':contenu', $post->getContenu());
-    $query->bindValue(':dateAjout', $post->getDateAjout());    
-    $query->bindValue(':statut', $post->getStatut());
-    $query->bindValue(':utilisateurId', $post->getUtilisateurId());
+    $query = $this->db->prepare('INSERT INTO post(title, standfirst, content, creationDate, published, userId)
+    VALUES(:title, :standfirst, :content, :creationDate, :published, :userId)');
+    $query->bindValue(':title', $post->getTitle());
+    $query->bindValue(':standfirst', $post->getStandfirst());
+    $query->bindValue(':content', $post->getContent());
+    $query->bindValue(':creationDate', $post->getCreationDate());
+    $query->bindValue(':published', $post->getPublished());    
+    $query->bindValue(':userId', $post->getUserId());
     $query->execute();
   }
 
@@ -41,8 +41,8 @@ class PostManager extends Database{
 
   public function get($id){
     $id = (int) $id;
-    $query = $this->db->query('SELECT id, titre, chapo, contenu, date_format(dateAjout,"%d/%m/%Y") AS dateAjout, 
-                                    date_format(dateModification,"%d/%m/%Y") AS dateModification, statut, utilisateurId FROM post WHERE id = '.$id);
+    $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
+                                    date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post WHERE id = '.$id);
     $donnees = $query->fetch(\PDO::FETCH_ASSOC);
     return new Post($donnees);
   }
@@ -51,8 +51,8 @@ class PostManager extends Database{
   public function getList(){   
     
     $posts= [];
-    $query = $this->db->query('SELECT id, titre, chapo, contenu, date_format(dateAjout,"%d/%m/%Y") AS dateAjout,
-                                   date_format(dateModification,"%d/%m/%Y") AS dateModification, statut, utilisateurId FROM post');   
+    $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
+                                   date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post');   
     while ($donnees = $query->fetch())
     {
       $posts[] = new Post($donnees);
@@ -60,17 +60,29 @@ class PostManager extends Database{
     return $posts;    
     }
 
+    public function getPublishedList(){   
+    
+      $posts= [];
+      $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
+                                     date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post WHERE published = "Publié" ORDER BY id DESC');   
+      while ($donnees = $query->fetch())
+      {
+        $posts[] = new Post($donnees);
+      }     
+      return $posts;    
+      }
+
   public function update(Post $post){
-    $query = $this->db->prepare('UPDATE post SET titre = :titre, chapo = :chapo, contenu = :contenu,  
-                                                 dateModification = :dateModification, statut = :statut, utilisateurId = :utilisateurId  WHERE id = :id');
-    $query->bindValue(':titre', $post->getTitre());   
-    $query->bindValue(':chapo', $post->getChapo());
-    $query->bindValue(':contenu', $post->getContenu());    
-    $query->bindValue(':dateModification', $post->getDateModification());
-    $query->bindValue(':statut', $post->getStatut());
-    $query->bindValue(':utilisateurId', $post->getUtilisateurId());
+    $query = $this->db->prepare('UPDATE post SET title = :title, standfirst = :standfirst, content = :content,  
+                                                 modificationDate = :modificationDate, published = :published, userId = :userId  WHERE id = :id');
+    $query->bindValue(':title', $post->getTitle());   
+    $query->bindValue(':standfirst', $post->getStandfirst());
+    $query->bindValue(':content', $post->getContent());    
+    $query->bindValue(':modificationDate', $post->getModificationDate());
+    $query->bindValue(':published', $post->getPublished());
+    $query->bindValue(':userId', $post->getUserId());
     $query->bindValue(':id', $post->getId());
     $query->execute();
-  }
+  } 
  
 }
