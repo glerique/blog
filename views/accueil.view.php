@@ -36,11 +36,11 @@
                             <img class="img-fluid w-100" src="assets/img/blog/2.png" alt="">
                         </div>
                         <div class="single-blog-content">                            
-                            <p class="date">Article ecrit le <?= $value->getDateAjout(); ?> </p>
+                            <p class="date">Article posté le : <?= $value->getCreationDate(); ?> </p>
                             <h4>
-                            <?= ucfirst ($value->getTitre()); ?>
+                            <?= ucfirst ($value->getTitle()); ?>
                             </h4>
-                            <p> <?= $value->getChapo(); ?></p>
+                            <p> <?= $value->getStandfirst(); ?></p>
                             <div class="meta-bottom d-flex">
                                 <p class="likes"><i class="ti-comments"></i> 02 Comments</p>                                
                             </div>
