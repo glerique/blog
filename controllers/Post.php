@@ -13,7 +13,7 @@ class Post{
     //Affiche la page page d'accueil 
     function accueil(){
         $manager = $this->modelManager;
-        $posts = $manager->getList();        
+        $posts = $manager->getPublishedList();        
         \models\Renderer::render("accueil", compact('posts'));
         
     }
@@ -26,18 +26,19 @@ class Post{
        
     }
     
-    function ajouterPost(){                
-        $statut = "Attente";
-        $dateAjout = date('Y-m-d');
-        $utilisateurId = $_SESSION['user']['id'];
+    function ajouterPost(){       
+        $creationDate = date('Y-m-d');
+        $published = "En attente";
+        $userId = $_SESSION['user']['id'];
         
         $manager = new $this->modelManager;          
         $post = new \models\Post([
-                'titre' => $_POST['titre'], 
-                'chapo' => $_POST['chapo'], 
-                'contenu' => $_POST['contenu'], 
-                'dateAjout' => $dateAjout,                               
-                'statut' => $statut
+                'title' => $_POST['title'], 
+                'standfirst' => $_POST['standfirst'], 
+                'content' => $_POST['content'], 
+                'creationDate' => $creationDate,
+                'published' => $published, 
+                'userId' => $userId
                 
             ]);
      
@@ -65,22 +66,22 @@ class Post{
     function ModifierPost(){
         
         $id = $_POST['id'];
-        $titre = $_POST['titre'];
-        $chapo = $_POST['chapo'];
-        $contenu = $_POST['contenu'];        
-        $dateModification = date('y-m-d');
-        $statut = $_POST['statut'];
-        $utilisateurId = $_POST['utilisateurId'];
+        $title = $_POST['title'];
+        $standfirst = $_POST['standfirst'];
+        $content = $_POST['content'];        
+        $modificationDate = date('y-m-d');
+        $published = $_POST['published'];
+        $userId = $_POST['userId'];
 
         $manager = new $this->modelManager;
         $post = new \models\Post([
         'id' => $id,
-        'titre' => $titre,
-        'chapo' => $chapo,
-        'contenu' => $contenu,        
-        'dateModification' => $dateModification,
-        'statut' => $statut,
-        'utilisateurId' => $utilisateurId  
+        'title' => $title,
+        'standfirst' => $standfirst,
+        'content' => $content,        
+        'modificationDate' => $modificationDate,
+        'published' => $published,
+        'userId' => $userId  
         ]);
 
         $manager->update($post);
