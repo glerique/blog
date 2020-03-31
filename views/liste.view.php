@@ -12,6 +12,7 @@
                     <div class="table-head">
                         <div class="serial">id</div>
                         <div class="country">Titre</div>
+                        <div class="country">Statut</div>
                         <div class="visit">Modifier</div>
                         <div class="percentage">Supprimer</div>
                     </div>
@@ -21,7 +22,8 @@
                         <div class="table-row">
 
                             <div class="serial"><?= $value->getId(); ?></div>
-                            <div class="country"><?= $value->getTitre(); ?></div>
+                            <div class="country"><?= $value->getTitle(); ?></div>
+                            <div class="country"><?=$value->getPublished(); ?></div>  
                             <div class="visit"><a href="index.php?controller=Post&action=modifier&id=<?= $value->getId(); ?>">Modifier</a></div>
                             <div class="percentage"><a href="index.php?controller=Post&action=supprimer&id=<?= $value->getId(); ?>"  onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
                         </div>
