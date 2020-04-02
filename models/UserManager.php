@@ -59,13 +59,11 @@ class UserManager extends Database
         }
     
       public function update(User $user){
-        $query = $this->db->prepare('UPDATE user SET lastName = :lastName, firstName = :firstName, email = :email, 
-                                              nickname = :nickname, pswd = :pswd, userRole = :userRole WHERE id = :id');
+        $query = $this->db->prepare('UPDATE user SET lastName = :lastName, firstName = :firstName,  
+                                              nickname = :nickname,  userRole = :userRole WHERE id = :id');
         $query->bindValue(':lastName', $user->getLastName());   
         $query->bindValue(':firstName', $user->getFirstName());
-        $query->bindValue(':email', $user->getEmail());
-        $query->bindValue(':nickname', $user->getNickname());
-        $query->bindValue(':pswd', $user->getPswd());
+        $query->bindValue(':nickname', $user->getNickname());        
         $query->bindValue(':userRole', $user->getUserRole());        
         $query->bindValue(':id', $user->getId());
         $query->execute();
@@ -75,9 +73,13 @@ class UserManager extends Database
     {
       $query = $this->db->prepare('SELECT * FROM user WHERE email = :email');
       $query->execute([':email' => $email]);     
-      return $query->fetch(\PDO::FETCH_ASSOC);
-      /*$data = $query->fetch(\PDO::FETCH_ASSOC);
-      return new User($data);
-      */      
+      return $query->fetch(\PDO::FETCH_ASSOC);           
+    }
+
+    public function getBynickname($nickname)
+    {
+      $query = $this->db->prepare('SELECT * FROM user WHERE nickname = :nickname');
+      $query->execute([':nickname' => $nickname]);     
+      return $query->fetch(\PDO::FETCH_ASSOC);           
     }
 }
