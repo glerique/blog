@@ -14,7 +14,7 @@ class Session
     {
         $_SESSION['connected'] = true;
         $_SESSION['user'] = $user;
-            if($_SESSION['user']['userRole']=="admin"){
+            if($_SESSION['user']['userRole']=="Admin"){
             $_SESSION['admin'] = true;
             }        
         

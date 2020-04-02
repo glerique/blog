@@ -20,26 +20,53 @@ class Post{
 
     //Affiche la fiche produit en fonction de l'id recupéré par GET
     function afficher(){            
-        $manager = new $this->modelManager;        
-        $post= $manager->get($_GET['id']);
+        $manager = $this->modelManager;
+        
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if (!$id){
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez préciser un id !"
+            );
+        }
+        
+        $post = $manager->get($id);             
+        if (!$post) {
+            $this->redirectWithError("index.php","Vous essayez d'afficher un post qui n'existe pas ...");
+        }
+        
+        $post= $manager->get($id);
         \models\Renderer::render("post", compact('post'));
        
     }
     
-    function ajouterPost(){       
+    function ajouterPost(){
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError(
+                "index.php",
+                "Il faut être administrateur pour pourvoir ajouter un post !"
+            );
+        }       
+        
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
+        $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);        
         $creationDate = date('Y-m-d');
         $published = "En attente";
         $userId = $_SESSION['user']['id'];
         
-        $manager = new $this->modelManager;          
+        if (!$title || !$standfirst || !$content) {
+            $this->redirectWithError("index.php?controller=Post&action=ajouter",
+                "Veuillez remplir tous les champs du formulaire correctement !"
+            ); 
+        }       
+        $manager = $this->modelManager;          
         $post = new \models\Post([
-                'title' => $_POST['title'], 
-                'standfirst' => $_POST['standfirst'], 
-                'content' => $_POST['content'], 
+                'title' => $title, 
+                'standfirst' => $standfirst, 
+                'content' => $content, 
                 'creationDate' => $creationDate,
                 'published' => $published, 
-                'userId' => $userId
-                
+                'userId' => $userId                
             ]);
      
      $manager->add($post);
@@ -51,7 +78,12 @@ class Post{
     }
 
     function modifier(){
-        
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError(
+                "index.php",
+                "Il faut être administrateur pour modifier modifier un post !"
+            );
+        }       
         $manager = new $this->modelManager;
         $post = $manager->get($_GET['id']);
         \models\Renderer::render("updatePost", compact('post'));
@@ -59,19 +91,34 @@ class Post{
     }
 
     function ajouter(){
-       
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour ajouter un Post !"
+            );
+        }   
         \models\Renderer::render("addPost");
     }
 
     function ModifierPost(){
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour modifier un Post !"
+            );
+        }
         
-        $id = $_POST['id'];
-        $title = $_POST['title'];
-        $standfirst = $_POST['standfirst'];
-        $content = $_POST['content'];        
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT); 
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
+        $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);        
         $modificationDate = date('y-m-d');
-        $published = $_POST['published'];
-        $userId = $_POST['userId'];
+        $published = filter_input(INPUT_POST, 'published', FILTER_SANITIZE_SPECIAL_CHARS);
+        $userId = filter_input(INPUT_POST, 'userId', FILTER_VALIDATE_INT);
+
+        if (!$id || !$title || !$standfirst || !$content || !$modificationDate || !$published || !$userId) {
+            $this->redirectWithError("index.php?controller=Post&action=ajouter",
+            "Veuillez remplir tous les champs du formulaire correctement !"
+        ); 
+        }
 
         $manager = new $this->modelManager;
         $post = new \models\Post([
@@ -94,14 +141,29 @@ class Post{
     }
 
     function liste(){
-        $manager = new $this->modelManager;
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour afficher la liste des posts !"
+            );
+        }   
+        $manager = $this->modelManager;
         $posts = $manager->getList();
         \models\Renderer::render("liste", compact('posts'));
     }
 
     function supprimer(){
-        $id = $_GET['id'];
-        $manager = new $this->modelManager;       
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour supprimer un post !"
+            );
+        }   
+        $manager = $this->modelManager;  
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if (!$id){
+            $this->redirectWithError("index.php?controller=Post&action=liste",
+                "Vous devez préciser un id !"
+            );
+        }     
         $manager->delete($id);               
         $this->redirectWithSuccess(
             "index.php?controller=Post&action=liste",
@@ -119,19 +181,6 @@ class Post{
     {
         \models\Session::addFlash('success', $message);
         \models\Http::redirect($url);
-    }
-
-    protected function redirectBackWithError(string $message)
-    {
-        $url = $_SERVER['HTTP_REFERER'];
-        $this->redirectWithError($url, $message);
-    }
-
-    
-    protected function redirectBackWithSuccess(string $message)
-    {
-        $url = $_SERVER['HTTP_REFERER'];
-        $this->redirectWithSuccess($url, $message);
-    }
+    }        
 }
 ?>

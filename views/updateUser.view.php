@@ -14,7 +14,7 @@
             <div class="row">           
               <div class="col-12">
                 <div class="form-group">
-                    Id : <input class="form-control" type="text" name="id" value="<?= $user->getId(); ?>">
+                    <input class="form-control" type="hidden" name="id" value="<?= $user->getId(); ?>">
                 </div>
               </div>
               <div class="col-12">
@@ -26,26 +26,19 @@
                 <div class="form-group">
                   Prénom : <input class="form-control" type="text" name="firstName" value="<?= $user->getFirstName(); ?>">
                 </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Email : <input class="form-control" type="text" name="email" value="<?= $user->getEmail(); ?>">
-                </div>
-              </div>
+              </div>              
               <div class="col-12">
                 <div class="form-group">
                   Nickname : <input class="form-control" type ="text" name="nickname" value="<?= $user->getNickname(); ?>">
                 </div>
-              </div>
+              </div> 
               <div class="col-12">
                 <div class="form-group">
-                  Mot de passe : <input class="form-control" type ="text" name="pswd" value="<?= $user->getPswd(); ?>">
-                </div>
-              </div>
-              <div class="col-12">
-                <div class="form-group">
-                  Role : <input class="form-control" type="text" name="userRole" value="<?= $user->getUserRole(); ?>">
-                </div>
+                  Role : <select class="form-control" name="userRole">
+                <option value="Membre" <?php if($user->getUserRole()=="Membre") {echo "selected";} ?>>Membre</option>
+                <option value="Admin"  <?php if($user->getUserRole()=="Admin") {echo "selected";} ?>>Admin</option>                           
+                </select>
+                </div>               
               </div>              
             <div class="form-group mt-3">
            <input type="submit" class="button button-contactForm" name="modifier" value="modifier">
