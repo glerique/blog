@@ -44,7 +44,7 @@
               </div>              
               <div class="col-12">
                 <div class="form-group">
-                    <input class="form-control" type="hidden" name="userRole" value="attente">
+                    <input class="form-control" type="hidden" name="userRole" value="membre">
                 </div>
               </div>              
             </div>
