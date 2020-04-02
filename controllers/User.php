@@ -14,27 +14,80 @@ class User{
       
     
     function addUser(){                
-        $manager = new $this->modelManager;        
-        $password = password_hash($_POST['pswd'], PASSWORD_DEFAULT);      
+        $manager =  $this->modelManager;        
+            
+        
+        $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);       
+        $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);        
+        $nickname = filter_input(INPUT_POST, 'nickname', FILTER_SANITIZE_SPECIAL_CHARS);
+        $pswd = filter_input(INPUT_POST, 'pswd');
+        $confirmPswd = filter_input(INPUT_POST, 'confirmPswd');
+       
+        
+        if (!$lastName || !$firstName || !$email || !$nickname || !$pswd || !$confirmPswd ) {
+            $this->redirectWithError("index.php?controller=User&action=ajouter",
+                "Veuillez remplir tous les champs du formulaire correctement !"
+            ); 
+        }       
+        $manager =  $this->modelManager;
+        $user = $manager->getByEmail($email);
+
+        // Si un utilisateur existe avec cet email, alors on affiche une erreur
+        if ($user) {
+            $this->redirectWithError("index.php?controller=User&action=ajouter","Un compte existe déjà avec cette adresse email");
+        }
+
+        $manager =  $this->modelManager;
+        $user = $manager->getByNickname($nickname);
+
+        // Si un utilisateur existe avec cet email, alors on affiche une erreur
+        if ($user) {
+            $this->redirectWithError("index.php?controller=User&action=ajouter","Un compte existe déjà avec ce pseudo");
+        }
+        
+
+
+        // 4. Vérification que les mot de passe sont identiques (password et passwordConfirm)
+        if ($pswd != $confirmPswd) {
+            $this->redirectWithError("index.php?controller=User&action=ajouter","Les deux mots de passe ne correspondent pas !");
+        }
+
+        $password = password_hash($_POST['pswd'], PASSWORD_DEFAULT);  
+        $userRole =  "Membre";
+
         $user = new \models\User([
-                'lastName' => $_POST['lastName'], 
-                'firstName' => $_POST['firstName'], 
-                'email' => $_POST['email'], 
-                'nickname' => $_POST['nickname'], 
+                'lastName' => $lastName, 
+                'firstName' => $firstName, 
+                'email' => $email, 
+                'nickname' => $nickname, 
                 'pswd' => $password, 
-                'userRole' => $_POST['userRole']
+                'userRole' => $userRole
             ]);
      
      $manager->add($user);     
      $this->redirectWithSuccess(
-        "index.php?controller=User&action=liste",
-        "Utilisateur modifié avec succès !"
+        "index.php?controller=Post&action=accueil",
+        "Vous pouvez desormais commenter les articles après vous etre identifié !"
     );               
     }
 
     function update(){
-        $manager = new $this->modelManager;
-        $user = $manager->get($_GET['id']);
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour modifier un utilisateur !"
+            );
+        }
+        
+
+        $manager =  $this->modelManager;
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if (!$id){
+            $this->redirectWithError("index.php?controller=User&action=liste",
+                "Vous devez préciser un id !"
+            );
+        }          
+        $user = $manager->get($id);
         \models\Renderer::render("updateUser", compact('user'));        
     }
 
@@ -43,46 +96,69 @@ class User{
     }
 
     function updateUser(){
-        
-        $id = $_POST['id'];
-        $firstName = $_POST['firstName'];
-        $lastName = $_POST['lastName'];
-        $email = $_POST['email'];
-        $nickname = $_POST['nickname'];
-        $pswd = $_POST['pswd'];
-        $userRole = $_POST['userRole'];
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour modifier un utilisateur !"
+            );
+        }
 
-        $manager = new $this->modelManager;
+
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $lastName = filter_input(INPUT_POST, 'lastName', FILTER_SANITIZE_SPECIAL_CHARS);       
+        $firstName = filter_input(INPUT_POST, 'firstName', FILTER_SANITIZE_SPECIAL_CHARS);
+        $nickname = filter_input(INPUT_POST, 'nickname', FILTER_SANITIZE_SPECIAL_CHARS);
+        $userRole = filter_input(INPUT_POST, 'userRole', FILTER_SANITIZE_SPECIAL_CHARS); 
+
+        if ( !$id || !$lastName || !$firstName  || !$nickname || !$userRole  ) {
+            $this->redirectWithError("index.php?controller=User&action=liste",
+                "Veuillez remplir tous les champs du formulaire correctement !"
+            ); 
+        }      
+
+        $manager = $this->modelManager;
         $user = new \models\User([
         'id' => $id,
         'firstName' => $firstName,
-        'lastName' => $lastName,
-        'email' => $email,
-        'nickname' => $nickname,
-        'pswd' => $pswd,
+        'lastName' => $lastName,        
+        'nickname' => $nickname,        
         'userRole' => $userRole  
         ]);
 
         $manager->update($user);
         $manager = new $this->modelManager;
         $this->redirectWithSuccess(
-            "index.php?controller=user&action=liste",
+            "index.php?controller=User&action=liste",
             "Utilisateur modifié avec succès !"
         );
     }
 
     function liste(){
-        $manager = new $this->modelManager;
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour supprimer un utilisateur !"
+            );
+        }
+        $manager = $this->modelManager;
         $users = $manager->getList();
         \models\Renderer::render("listUser", compact('users'));
     }
 
     function delete(){
-        $id = $_GET['id'];
-        $manager = new $this->modelManager;       
+        if (!\models\Session::isAdmin()) {
+            $this->redirectWithError("index.php?controller=Post&action=accueil",
+                "Vous devez etre administrateur pour supprimer un utilisateur !"
+            );
+        }
+        $manager =  $this->modelManager;    
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if (!$id){
+            $this->redirectWithError("index.php?controller=User&action=liste",
+                "Vous devez préciser un id !"
+            );
+        }          
         $manager->delete($id);               
         $this->redirectWithSuccess(
-            "index.php?action=liste",
+            "index.php?controller=User&action=liste",
             "User supprimé avec succès !"
         );
     } 
@@ -94,24 +170,25 @@ class User{
  
     public function authentification()
     {
-        $email = $_POST['email'];
+        
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $pswd = $_POST['pswd'];
         
         if (!$email || !$pswd) {
-            $this->redirectBackWithError("Le formulaire a été mal rempli");
+            $this->redirectWithError("index.php?controller=User&action=formLogin","Le formulaire a été mal rempli");
         }
         
         $manager = $this->modelManager;
         $user = $manager->getByEmail($email); 
         
         if (!$user) {
-            $this->redirectBackWithError("Aucun compte utilisateur ne possède cette adresse email");
+            $this->redirectWithError("index.php?controller=User&action=formLogin","Aucun compte utilisateur ne possède cette adresse email");
         }
         
         $verif = password_verify($pswd, $user['pswd']);                    		
          
         if (!$verif) {
-            $this->redirectBackWithError("Le mot de passe ne correspond au compte utilisateur trouvé");
+            $this->redirectWithError("index.php?controller=User&action=formLogin","Le mot de passe ne correspond au compte utilisateur trouvé");
         }
         else {   
 
@@ -119,7 +196,7 @@ class User{
            
 
         $this->redirectWithSuccess(
-            "index.php",
+            "index.php?controller=Post&action=accueil",
             "Bravo <strong>$user[firstName]</strong>, vous êtes désormais connecté(e) au blog !"
         );
         }
@@ -131,7 +208,7 @@ class User{
         \models\Session::disconnect();
 
         $this->redirectWithSuccess(
-            "index.php",
+            "index.php?controller=Post&action=accueil",
             "Vous êtes désormais déconnecté !"
         );
     }
@@ -146,21 +223,8 @@ class User{
     {
         \models\Session::addFlash('success', $message);
         \models\Http::redirect($url);
-    }
-
-    protected function redirectBackWithError(string $message)
-    {
-        $url = $_SERVER['HTTP_REFERER'];
-        $this->redirectWithError($url, $message);
-    }
-
+    } 
     
-    protected function redirectBackWithSuccess(string $message)
-    {
-        $url = $_SERVER['HTTP_REFERER'];
-        $this->redirectWithSuccess($url, $message);
-    }
-    
-    
+      
 }
 ?>
