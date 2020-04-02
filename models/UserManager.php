@@ -76,7 +76,7 @@ class UserManager extends Database
       return $query->fetch(\PDO::FETCH_ASSOC);           
     }
 
-    public function getBynickname($nickname)
+    public function getByNickname($nickname)
     {
       $query = $this->db->prepare('SELECT * FROM user WHERE nickname = :nickname');
       $query->execute([':nickname' => $nickname]);     
