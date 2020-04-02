@@ -9,12 +9,4 @@ class Http {
         header("Location:$url");
         exit();
     }
-
-    
-    public static function redirectBack()
-    {
-        
-        self::redirect($_SERVER['HTTP_REFERER']);
-    }
-
 }
