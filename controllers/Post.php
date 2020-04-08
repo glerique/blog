@@ -35,8 +35,13 @@ class Post{
         }
         
         $post= $manager->get($id);
-        \models\Renderer::render("post", compact('post'));
-       
+
+        $postId = $id;        
+               
+        $commentsModel = new \models\CommentManager();
+        $comments = $commentsModel->findAllWithPost($postId);                
+
+        \models\Renderer::render("post", compact('post', 'comments'));        
     }
     
     function ajouterPost(){
@@ -81,11 +86,16 @@ class Post{
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Il faut être administrateur pour modifier modifier un post !"
+                "Il faut être administrateur pour modifier un post !"
             );
+        } 
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        if (!$id) {
+            $this->redirectWithError("index.php","Vous essayez de modifier un post qui n'existe pas ...");
         }       
         $manager = new $this->modelManager;
-        $post = $manager->get($_GET['id']);
+        
+        $post = $manager->get($id);
         \models\Renderer::render("updatePost", compact('post'));
                 
     }
