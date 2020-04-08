@@ -38,7 +38,8 @@
                                 <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=ajouter">Ajouter article</a></li> 
                                     <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=liste">Liste articles</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=liste">Liste utilisateurs</a></li>                                                                          
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=liste">Liste utilisateurs</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Comment&action=liste">Commentaires</a></li>                                                                          
                                 </ul>
                             </li>
                                 <?php }?>
