@@ -43,6 +43,7 @@ class PostManager extends Database
   public function delete($id)
   {
     $query = $this->db->query('DELETE FROM post WHERE id = ' . $id);
+    
     $query->execute();
   }
 
@@ -52,7 +53,7 @@ class PostManager extends Database
     $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
                                     date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post WHERE id = ' . $id);
     if ($query->rowCount() != 1) {
-      \models\Http::redirect("index.php");
+      return false; 
     } else {
 
       $donnees = $query->fetch(\PDO::FETCH_ASSOC);
