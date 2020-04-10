@@ -49,7 +49,8 @@
                                 if (\models\Session::isConnected()) { ?>
                             <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=logout">Logout</a></li>
                                 <?php }?>    
-                        </ul>
+                                <li class="nav-item"><a class="nav-link" href="index.php?controller=Contact&action=formContact">Contact</a></li>
+                            </ul>
                     </div>
                     <div class="right-button">
                         <ul>                            
