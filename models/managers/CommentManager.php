@@ -1,9 +1,9 @@
 <?php
 
-namespace models;
+namespace models\managers;
 
 
-class CommentManager extends Database
+class CommentManager extends \models\Database
 {
 
   private $db; // Instance de PDO
@@ -27,7 +27,7 @@ class CommentManager extends Database
     return $count;
   }
 
-  public function add(Comment $comment)
+  public function add(\models\Comment $comment)
   {
     $query = $this->db->prepare('INSERT INTO comment(content, creationDate, postId, userId)
     VALUES(:content, :creationDate, :postId, :userId)');
@@ -62,18 +62,23 @@ class CommentManager extends Database
   public function findAllWithPost($postId)
     {
         // 2. On récupère les commentaires
-        $comments =[];
-        $query = $this->db->prepare('SELECT comment.id, comment.content, date_format(comment.creationDate,"%d/%m/%Y") AS creationDate, 
-                                      comment.validated as validated, comment.postId as postId, comment.userId,
-                                      user.nickname as author
-                                      FROM comment, user 
-                                      WHERE comment.userId = user.id 
-                                      AND postId = :postId 
+       
+        $query = $this->db->prepare('SELECT id, content, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
+                                      validated as validated, postId , userId                                      
+                                      FROM comment
+                                      WHERE postId = :postId 
                                       AND validated = 1 ORDER BY id ASC');
         $query->execute(['postId' => $postId]);
-        while ($donnees = $query->fetch()) {
-          $comments[] = new \models\Comment($donnees);
+        $query->execute();
+        $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,'\models\Comment');
+   
+        $comments = $query->fetchAll();
+        
+        foreach ($comments as $comment) {
+          $userManager = new \models\managers\UserManager();
+          $comment->setAuthor($userManager->getNickname($comment->getUserId()));          
         }
+        
         return $comments;
 
         
@@ -82,14 +87,21 @@ class CommentManager extends Database
   public function getWaitingList()
   {
 
-    $comments = [];
-    $query = $this->db->prepare('SELECT comment.id AS id, comment.content, date_format(comment.creationDate,"%d/%m/%Y") AS creationDate,
-                                    comment.validated as validated, comment.postId, comment.userId FROM comment WHERE validated = 0 ORDER BY id');
+    
+    $query = $this->db->prepare('SELECT id, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
+                                    validated as validated, postId, userId FROM comment WHERE validated = 0 ORDER BY id');
     $query->execute();
-    while ($donnees = $query->fetch()) {
-      $comments[] = new \models\Comment($donnees);
-    }
-    return $comments;
+    
+        $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,'\models\Comment');
+   
+        $comments = $query->fetchAll();
+
+        foreach ($comments as $comment) {
+          $userManager = new \models\managers\UserManager();
+          $comment->setAuthor($userManager->getNickname($comment->getUserId()));          
+        }
+        
+        return $comments;
   } 
 
   public function validComment(\models\Comment $post)

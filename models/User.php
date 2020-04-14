@@ -23,9 +23,13 @@ class User {
 }
 
 // Important car sinon l'objet à sa création est vide.
-    public function __construct(array $donnees){
-        $this->hydrate($donnees);
-    }
+public function __construct($valeurs = [])
+{
+  if (!empty($valeurs)) // Si on a spécifié des valeurs, alors on hydrate l'objet.
+  {
+    $this->hydrate($valeurs);
+  }
+}
 
     //GETTERS
 

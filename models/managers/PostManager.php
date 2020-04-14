@@ -1,10 +1,10 @@
 <?php
 
-namespace models;
+namespace models\managers;
 
-use Exception;
 
-class PostManager extends Database
+
+class PostManager extends \models\Database
 {
 
   private $db; // Instance de PDO
@@ -22,18 +22,20 @@ class PostManager extends Database
 
   public function count()
   {
-    $query = $this->db->query('SELECT COUNT(*) FROM post');
+    $query = $this->db->prepare('SELECT COUNT(*) FROM post');
+    $query->execute();
     $count = $query->fetchColumn();
     return $count;
   }
 
-  public function add(Post $post)
+  public function add(\models\Post $post)
   {
-    $query = $this->db->prepare('INSERT INTO post(title, standfirst, content, creationDate, published, userId)
-    VALUES(:title, :standfirst, :content, :creationDate, :published, :userId)');
+    $query = $this->db->prepare('INSERT INTO post(title, standfirst, content, author, creationDate, published, userId)
+    VALUES(:title, :standfirst, :content, :author, :creationDate, :published, :userId)');
     $query->bindValue(':title', $post->getTitle());
     $query->bindValue(':standfirst', $post->getStandfirst());
     $query->bindValue(':content', $post->getContent());
+    $query->bindValue(':author', $post->getAuthor());
     $query->bindValue(':creationDate', $post->getCreationDate());
     $query->bindValue(':published', $post->getPublished());
     $query->bindValue(':userId', $post->getUserId());
@@ -42,7 +44,7 @@ class PostManager extends Database
 
   public function delete($id)
   {
-    $query = $this->db->query('DELETE FROM post WHERE id = ' . $id);
+    $query = $this->db->prepare('DELETE FROM post WHERE id = ' . $id);
     
     $query->execute();
   }
@@ -50,49 +52,54 @@ class PostManager extends Database
   public function get($id)
   {
     $id = (int) $id;
-    $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
+    $query = $this->db->prepare('SELECT id, title, standfirst, content, author, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
                                     date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post WHERE id = ' . $id);
+    $query->execute();
     if ($query->rowCount() != 1) {
       return false; 
     } else {
 
       $donnees = $query->fetch(\PDO::FETCH_ASSOC);
-      return new Post($donnees);
+      return new \models\Post($donnees);
     }
   }
-
 
   public function getList()
   {
 
-    $posts = [];
-    $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
+    
+    $query = $this->db->prepare('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
                                    date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post');
-    while ($donnees = $query->fetch()) {
-      $posts[] = new Post($donnees);
-    }
+    $query->execute();
+    $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,'\models\Post');
+   
+    $posts = $query->fetchAll();
+
+    
     return $posts;
-  }
+  }  
 
   public function getPublishedList()
   {
 
-    $posts = [];
-    $query = $this->db->query('SELECT id, title, standfirst, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
+    $query = $this->db->prepare('SELECT id, title, standfirst, content, author, date_format(creationDate,"%d/%m/%Y") AS creationDate,
                                      date_format(modificationDate,"%d/%m/%Y") AS modificationDate, published, userId FROM post WHERE published = "Publié" ORDER BY id DESC');
-    while ($donnees = $query->fetch()) {
-      $posts[] = new Post($donnees);
-    }
+    $query->execute();
+    $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,'\models\Post');
+   
+    $posts = $query->fetchAll();
+    
     return $posts;
   }
 
-  public function update(Post $post)
+  public function update(\models\Post $post)
   {
-    $query = $this->db->prepare('UPDATE post SET title = :title, standfirst = :standfirst, content = :content,  
+    $query = $this->db->prepare('UPDATE post SET title = :title, standfirst = :standfirst, content = :content, author = :author,  
                                                  modificationDate = :modificationDate, published = :published, userId = :userId  WHERE id = :id');
     $query->bindValue(':title', $post->getTitle());
     $query->bindValue(':standfirst', $post->getStandfirst());
     $query->bindValue(':content', $post->getContent());
+    $query->bindValue(':author', $post->getAuthor());
     $query->bindValue(':modificationDate', $post->getModificationDate());
     $query->bindValue(':published', $post->getPublished());
     $query->bindValue(':userId', $post->getUserId());

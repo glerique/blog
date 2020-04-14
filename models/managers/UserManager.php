@@ -1,6 +1,6 @@
 <?php
-namespace models;
-class UserManager extends Database
+namespace models\managers;
+class UserManager extends \models\Database
 {
 
     private $db; // Instance de PDO
@@ -17,12 +17,13 @@ class UserManager extends Database
     }
 
     public function count(){
-        $query = $this->db->query('SELECT COUNT(*) FROM user');
+        $query = $this->db->prepare('SELECT COUNT(*) FROM user');
+        $query->execute();
         $count = $query->fetchColumn();
         return $count;
       }
     
-      public function add(User $user){
+      public function add(\models\User $user){
         $query = $this->db->prepare('INSERT INTO user(lastName, firstName, email, nickname, pswd, userRole)
         VALUES(:nom, :prenom, :mail, :pseudo, :mdp, :droit)');
         $query->bindValue(':nom', $user->getLastName());
@@ -35,30 +36,39 @@ class UserManager extends Database
       }
     
       public function delete($id){
-        $query= $this->db->query('DELETE FROM user WHERE id = '.$id);
+        $query= $this->db->prepare('DELETE FROM user WHERE id = '.$id);
         $query->execute();
       }
     
       public function get($id){
         $id = (int) $id;
-        $query = $this->db->query('SELECT id, lastName, firstName, email, nickname, pswd, userRole FROM user WHERE id = '.$id);
+        $query = $this->db->prepare('SELECT id, lastName, firstName, email, nickname, pswd, userRole FROM user WHERE id = '.$id);
+        $query->execute();
         $data = $query->fetch(\PDO::FETCH_ASSOC);
-        return new User($data);
+        return new \models\User($data);
       }
     
-    
+        public function getNickname($id){
+        $id = (int) $id;
+        $query = $this->db->prepare('SELECT nickname FROM user WHERE id = '.$id);
+        $query->execute();
+        $data = $query->fetch(\PDO::FETCH_ASSOC);
+        //Permet d'obtenir le resultat en chiane de caratère et non en tableau 
+        return implode($data);
+      }
       public function getList(){   
         
-        $users= [];
-        $query = $this->db->query('SELECT id, lastName, firstName, email, nickname, pswd, userRole FROM user');   
-        while ($data = $query->fetch())
-        {
-          $users[] = new User($data);
-        }     
+        
+        $query = $this->db->prepare('SELECT id, lastName, firstName, email, nickname, pswd, userRole FROM user');   
+        $query->execute();
+    
+        $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,'\models\User');
+   
+        $users = $query->fetchAll();  
         return $users;    
         }
     
-      public function update(User $user){
+      public function update(\models\User $user){
         $query = $this->db->prepare('UPDATE user SET lastName = :lastName, firstName = :firstName,  
                                               nickname = :nickname,  userRole = :userRole WHERE id = :id');
         $query->bindValue(':lastName', $user->getLastName());   

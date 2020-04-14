@@ -8,6 +8,7 @@ class Post {
     private $title;
     private $standfirst;
     private $content;
+    private $author;
     private $creationDate;
     private $modificationDate;
     private $published;
@@ -26,9 +27,14 @@ class Post {
     }
 
     // Important car sinon l'objet à sa création est vide.
-    public function __construct(array $donnees){
-        $this->hydrate($donnees);
+    public function __construct($valeurs = [])
+    {
+      if (!empty($valeurs)) // Si on a spécifié des valeurs, alors on hydrate l'objet.
+      {
+        $this->hydrate($valeurs);
+      }
     }
+    
 
     //GETTERS
 
@@ -46,6 +52,10 @@ class Post {
 
     function getContent(){
         return $this->content;
+    }
+
+    function getAuthor(){
+        return $this->author;
     }
 
     function getCreationDate(){
@@ -80,6 +90,10 @@ class Post {
 
     function setContent($content){
         $this->content = $content;
+    }
+    
+    function setAuthor($author){
+        $this->author = $author;
     }  
 
     function setCreationDate($creationDate){

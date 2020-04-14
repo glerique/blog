@@ -12,7 +12,7 @@ public function sendEmail($lastname, $firstname, $email, $subject, $content)
     $mail->isSMTP(); // Paramétrer le Mailer pour utiliser SMTP 
     $mail->Host = 'smtp.gmail.com'; // Spécifier le serveur SMTP
     $mail->SMTPAuth = true; // Activer authentication SMTP
-    $mail->Username = 'gael.maing59@gmail.com'; // Votre adresse email d'envoi
+    $mail->Username = 'admin@gmail.com'; // Votre adresse email d'envoi
     $mail->Password = ''; // Le mot de passe de cette adresse email
     $mail->SMTPSecure = 'ssl'; // Accepter SSL
     $mail->Port = 465;
@@ -21,7 +21,7 @@ public function sendEmail($lastname, $firstname, $email, $subject, $content)
 
     //Recipients
     
-    $mail->addAddress('gael.maing59@gmail.com', 'Message du Blog');     // Add a recipient
+    $mail->addAddress('admin@gmail.com', 'Message du Blog');     // Add a recipient
     $mail->addReplyTo($email, 'Information');    
     
 

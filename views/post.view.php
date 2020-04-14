@@ -27,10 +27,10 @@
 
 
 
-              <p class="date">Dernirer modification : <?= $post->getModificationDate(); ?></p>
+              <p class="date">Dernirer modification le : <?= $post->getModificationDate(); ?></p>
 
             </div>
-            <p class="date">Autheur : <?= $post->getUserId(); ?></p>
+            <p class="date">Ecrit par : <?= $post->getAuthor(); ?></p>
           </div>
         </div>
 
