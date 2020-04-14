@@ -29,7 +29,12 @@
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Contenu : <input class="form-control" type="text" name="content" value="<?= $post->getContent(); ?>">
+                  Contenu : <textarea class="form-control w-100" name="content"  cols="30" rows="9"><?= $post->getContent(); ?></textarea>
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="form-group">
+                  Auteur(e) : <input class="form-control" type="text" name="author" value="<?= $post->getAuthor(); ?>">
                 </div>
               </div>             
               <div class="col-12">
