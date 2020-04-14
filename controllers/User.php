@@ -8,7 +8,7 @@ class User{
     
 
     public function __construct(){
-                $this->modelManager = new \models\UserManager();        
+                $this->modelManager = new \models\managers\UserManager();        
     }
     
       
