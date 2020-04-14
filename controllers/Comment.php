@@ -8,7 +8,7 @@ class Comment{
     
 
     public function __construct(){
-                $this->modelManager = new \models\CommentManager();        
+                $this->modelManager = new \models\managers\CommentManager();        
     }
     
    
@@ -33,18 +33,20 @@ class Comment{
             ); 
         } 
             
-        $manager = $this->modelManager;    
+         
         $comment = new \models\Comment([
                 'content' => $content, 
                 'creationdate' => $creationDate,
                 'postId' => $postId,                 
                 'userId' => $userId                
             ]);
-            var_dump($comment);      
+     
+      
+     $manager = $this->modelManager;               
      $manager->add($comment);
      
      $this->redirectWithSuccess(
-        "index.php?controller=Comment&action=liste",
+        "index.php?controller=Post&action=accueil",
         "commentaire ajouté avec succès, en attente de validation de l'administrateur !"
     );   
                    
@@ -140,11 +142,7 @@ class Comment{
     {
         \models\Session::addFlash('success', $message);
         \models\Http::redirect($url);
-    }   
-    
-    
-
-
+    }  
 }
 
 ?>
