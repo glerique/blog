@@ -8,7 +8,7 @@ class Post{
     
 
     public function __construct(){
-                $this->modelManager = new \models\PostManager();        
+                $this->modelManager = new \models\managers\PostManager();        
     }
     //Affiche la page page d'accueil 
     function accueil(){
@@ -29,7 +29,8 @@ class Post{
             );
         }
         
-        $post = $manager->get($id);             
+        $post = $manager->get($id);
+                   
         if (!$post) {
             $this->redirectWithError("index.php","Vous essayez d'afficher un post qui n'existe pas ...");
         }
@@ -38,7 +39,7 @@ class Post{
 
         $postId = $id;        
                
-        $commentsModel = new \models\CommentManager();
+        $commentsModel = new \models\managers\CommentManager();
         $comments = $commentsModel->findAllWithPost($postId);                
 
         \models\Renderer::render("post", compact('post', 'comments'));        
@@ -54,12 +55,13 @@ class Post{
         
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
         $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);        
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);       
         $creationDate = date('Y-m-d');
         $published = "En attente";
         $userId = $_SESSION['user']['id'];
         
-        if (!$title || !$standfirst || !$content) {
+        if (!$title || !$standfirst || !$content || !$author) {
             $this->redirectWithError("index.php?controller=Post&action=ajouter",
                 "Veuillez remplir tous les champs du formulaire correctement !"
             ); 
@@ -68,7 +70,8 @@ class Post{
         $post = new \models\Post([
                 'title' => $title, 
                 'standfirst' => $standfirst, 
-                'content' => $content, 
+                'content' => $content,
+                'author' => $author, 
                 'creationDate' => $creationDate,
                 'published' => $published, 
                 'userId' => $userId                
@@ -89,7 +92,8 @@ class Post{
                 "Il faut être administrateur pour modifier un post !"
             );
         } 
-        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        
         if (!$id) {
             $this->redirectWithError("index.php","Vous essayez de modifier un post qui n'existe pas ...");
         }       
@@ -119,12 +123,13 @@ class Post{
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT); 
         $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
         $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);        
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS); 
+        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);      
         $modificationDate = date('y-m-d');
         $published = filter_input(INPUT_POST, 'published', FILTER_SANITIZE_SPECIAL_CHARS);
         $userId = filter_input(INPUT_POST, 'userId', FILTER_VALIDATE_INT);
 
-        if (!$id || !$title || !$standfirst || !$content || !$modificationDate || !$published || !$userId) {
+        if (!$id || !$title || !$standfirst || !$content || !$author || !$modificationDate || !$published || !$userId) {
             $this->redirectWithError("index.php?controller=Post&action=ajouter",
             "Veuillez remplir tous les champs du formulaire correctement !"
         ); 
@@ -135,7 +140,8 @@ class Post{
         'id' => $id,
         'title' => $title,
         'standfirst' => $standfirst,
-        'content' => $content,        
+        'content' => $content,
+        'author' => $author,        
         'modificationDate' => $modificationDate,
         'published' => $published,
         'userId' => $userId  
