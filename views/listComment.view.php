@@ -12,7 +12,7 @@
                     <div class="table-head">
                         <div class="serial">id</div>
                         <div class="serial">commentaire</div>
-                        <div class="serial">userId</div>                          
+                        <div class="serial">Auteur(e)</div>                          
                         <div class="serial">Valider</div>
                         <div class="serial">Supprimer</div>
                     </div>
@@ -22,7 +22,7 @@
                         <div class="table-row">
                             <div class="serial"><?= $value->getId(); ?></div>
                             <div class="serial"><?= $value->getContent(); ?></div>                            
-                            <div class="serial"><?= $value->getUserId(); ?></div>
+                            <div class="serial"><?= $value->getAuthor(); ?></div>
                             <div class="serial"><a href="index.php?controller=Comment&action=valider&id=<?= $value->getId(); ?>">Valider</a></div>
                             <div class="serial"><a href="index.php?controller=Comment&action=delete&id=<?= $value->getId(); ?>" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
                         </div>
