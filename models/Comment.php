@@ -10,6 +10,7 @@ class Comment {
     private $validated;
     private $postId; 
     private $userId;
+    private $author;
 
     public function hydrate(array $donnees){
         foreach ($donnees as $key => $value){   
@@ -24,8 +25,12 @@ class Comment {
     }
 
     // Important car sinon l'objet à sa création est vide.
-    public function __construct(array $donnees){
-        $this->hydrate($donnees);
+    public function __construct($valeurs = [])
+    {
+      if (!empty($valeurs)) // Si on a spécifié des valeurs, alors on hydrate l'objet.
+      {
+        $this->hydrate($valeurs);
+      }
     }
 
     //GETTERS
