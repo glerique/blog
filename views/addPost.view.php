@@ -24,7 +24,12 @@
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Contenu : <input class="form-control" type="text" name="content">
+                  <textarea class="form-control w-100" name="content"  cols="30" rows="9" placeholder="Ecrire le contenu de l'article"></textarea>
+                </div>
+              </div>
+            <div class="col-12">
+                <div class="form-group">
+                  Auteur(e) : <input class="form-control" type="text" name="author">
                 </div>
               </div>     
             </div>
