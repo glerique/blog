@@ -11,20 +11,18 @@
                 <div class="progress-table">
                     <div class="table-head">
                         <div class="serial">id</div>
-                        <div class="serial">Pseudo</div>                        
+                        <div class="serial">Pseudo</div>
                         <div class="serial">Droit</div>
                         <div class="serial">Modifier</div>
-                        <div class="serial">Supprimer</div>
                     </div>
                     <?php
                     foreach ($users as $value) {
                     ?>
                         <div class="table-row">
                             <div class="serial"><?= $value->getId(); ?></div>
-                            <div class="serial"><?= $value->getNickname(); ?></div>                            
+                            <div class="serial"><?= $value->getNickname(); ?></div>
                             <div class="serial"><?= $value->getUserRole(); ?></div>
-                            <div class="serial"><a href="index.php?controller=User&action=update&id=<?= $value->getId(); ?>">Modifier</a></div>
-                            <div class="serial"><a href="index.php?controller=User&action=delete&id=<?= $value->getId(); ?>" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
+                            <div class="serial"><a href="index.php?controller=User&action=modifier&id=<?= $value->getId(); ?>">Modifier</a></div>
                         </div>
                     <?php } ?>
                 </div>
