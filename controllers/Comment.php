@@ -2,147 +2,155 @@
 
 namespace controllers;
 
-class Comment{
+class Comment extends \controllers\Controller
+{
 
-    protected $modelManager;
-    
+    protected $modelName = "Comment";
 
-    public function __construct(){
-                $this->modelManager = new \models\managers\CommentManager();        
-    }
-    
-   
-    function addComment(){
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);       
+
+    function addComment()
+    {
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
         $creationDate = date('Y-m-d');
         $postId = filter_input(INPUT_POST, 'postId', FILTER_VALIDATE_INT);
-        
+
 
         if (!\models\Session::isConnected()) {
             $this->redirectWithError(
                 "index.php?controller=Post&action=afficher&id=$postId",
                 "Il faut être connecté pour pourvoir ajouter un commentaire !"
             );
-        }       
+        }
         $userId = $_SESSION['user']['id'];
-        
-        
+
+
         if (!$content) {
-            $this->redirectWithError("index.php?controller=Post&action=afficher&id=$postId",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=afficher&id=$postId",
                 "Veuillez remplir tous les champs du formulaire correctement !"
-            ); 
-        } 
-            
-         
+            );
+        }
+
+
         $comment = new \models\Comment([
-                'content' => $content, 
-                'creationdate' => $creationDate,
-                'postId' => $postId,                 
-                'userId' => $userId                
-            ]);
-     
-      
-     $manager = $this->modelManager;               
-     $manager->add($comment);
-     
-     $this->redirectWithSuccess(
-        "index.php?controller=Post&action=accueil",
-        "commentaire ajouté avec succès, en attente de validation de l'administrateur !"
-    );   
-                   
-}
+            'content' => $content,
+            'creationdate' => $creationDate,
+            'postId' => $postId,
+            'userId' => $userId
+        ]);
 
 
-    function liste(){
+        $manager = $this->modelManager;
+        $manager->add($comment);
+
+        $this->redirectWithSuccess(
+            "index.php?controller=Post&action=accueil",
+            "commentaire ajouté avec succès, en attente de validation de l'administrateur !"
+        );
+    }
+
+
+    function liste()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour afficher la liste des commentaires !"
             );
-        }   
+        }
         $manager = $this->modelManager;
         $comments = $manager->getWaitingList();
         \models\Renderer::render("listComment", compact('comments'));
     }
 
-    function valider(){
+    function valider()
+    {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php",
-                "Il faut être administrateur pour valider un post !"
+                "index.php?phpcontroller=Post&action=accueil",
+                "Il faut être administrateur pour valider un commentaire !"
             );
-        }       
+        }
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
+        if (!$id) {
+            $this->redirectWithError(
+                "index.php?controller=Comment&action=liste",
+                "Vous devez préciser un id !"
+            );
+        }
         $manager = new $this->modelManager;
-        $comment = $manager->get($_GET['id']);
+
+        $comment = $manager->get($id);
+        if (!$comment) {
+            $this->redirectWithError(
+                "index.php?controller=Comment&action=liste",
+                "Vous essayez de valider un commentaire qui n'existe pas ..."
+            );
+        }
+
         \models\Renderer::render("validComment", compact('comment'));
-                
     }
 
-    function validComment(){
+    function validComment()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour valider un commentaire !"
             );
         }
-        
-         
-        
+
         $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
         $validated = filter_input(INPUT_POST, 'validated', FILTER_VALIDATE_INT);
-        
-        if (!$id || !$validated ) {
-            $this->redirectWithError("index.php?controller=Comment&action=liste",
-            "Veuillez remplir tous les champs du formulaire correctement !"
-        ); 
+
+        if (!$id || !$validated) {
+            $this->redirectWithError(
+                "index.php?controller=Comment&action=liste",
+                "Veuillez remplir tous les champs du formulaire correctement !"
+            );
         }
-            
+
         $manager = new $this->modelManager;
         $comment = new \models\Comment([
-        'id' => $id,
-        'validated' => $validated  
+            'id' => $id,
+            'validated' => $validated
         ]);
 
         $manager->validComment($comment);
         $manager = new $this->modelManager;
         $this->redirectWithSuccess(
             "index.php?controller=Comment&action=liste",
-            "Post modifié avec succès !"
+            "Commentaire validé avec succès !"
         );
-        
     }
 
-    function delete(){
+    function supprimer()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour supprimer un commentaire !"
             );
-        }   
-        $manager = $this->modelManager;  
+        }
+        $manager = $this->modelManager;
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        if (!$id){
-            $this->redirectWithError("index.php?controller=Post&action=liste",
+        if (!$id) {
+            $this->redirectWithError(
+                "index.php?controller=Comment&action=liste",
                 "Vous devez préciser un id !"
             );
-        }     
-        $manager->delete($id);               
+        }
+        $comment = $manager->delete($id);
+        if (!$comment) {
+            $this->redirectWithError(
+                "index.php?Comment&action=liste",
+                "Vous essayez de supprimer un commentaire qui n'existe pas ..."
+            );
+        }
         $this->redirectWithSuccess(
             "index.php?controller=Comment&action=liste",
             "Commentaire supprimé avec succès !"
         );
     }
-
-
-
-    protected function redirectWithError(string $url, string $message)
-    {
-        \models\Session::addFlash('error', $message);
-        \models\Http::redirect($url);
-    }
-    
-    protected function redirectWithSuccess(string $url, string $message)
-    {
-        \models\Session::addFlash('success', $message);
-        \models\Http::redirect($url);
-    }  
 }
-
-?>
