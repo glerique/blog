@@ -2,149 +2,163 @@
 
 namespace controllers;
 
-class Post{
+class Post extends \controllers\Controller
+{
 
-    protected $modelManager;
-    
+    protected $modelName = "Post";
 
-    public function __construct(){
-                $this->modelManager = new \models\managers\PostManager();        
-    }
     //Affiche la page page d'accueil 
-    function accueil(){
+    function accueil()
+    {
         $manager = $this->modelManager;
-        $posts = $manager->getPublishedList();        
+        $posts = $manager->getPublishedList();
         \models\Renderer::render("accueil", compact('posts'));
-        
     }
 
     //Affiche la fiche produit en fonction de l'id recupéré par GET
-    function afficher(){            
+    function afficher()
+    {
         $manager = $this->modelManager;
-        
+
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        if (!$id){
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+        if (!$id) {
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez préciser un id !"
             );
         }
-        
+
         $post = $manager->get($id);
-                   
+
         if (!$post) {
-            $this->redirectWithError("index.php","Vous essayez d'afficher un post qui n'existe pas ...");
+            $this->redirectWithError("index.php", "Vous essayez d'afficher un post qui n'existe pas ...");
         }
-        
-        $post= $manager->get($id);
 
-        $postId = $id;        
-               
+        $post = $manager->get($id);
+
+        $postId = $id;
+
         $commentsModel = new \models\managers\CommentManager();
-        $comments = $commentsModel->findAllWithPost($postId);                
+        $comments = $commentsModel->findAllWithPost($postId);
 
-        \models\Renderer::render("post", compact('post', 'comments'));        
+        \models\Renderer::render("post", compact('post', 'comments'));
     }
-    
-    function ajouterPost(){
+
+    function ajouterPost()
+    {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Il faut être administrateur pour pourvoir ajouter un post !"
+                "Il faut être administrateur pour pouvoir ajouter un post !"
             );
-        }       
-        
-        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
+        }
+
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
         $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
         $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
-        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);       
+        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $creationDate = date('Y-m-d');
         $published = "En attente";
         $userId = $_SESSION['user']['id'];
-        
+
         if (!$title || !$standfirst || !$content || !$author) {
-            $this->redirectWithError("index.php?controller=Post&action=ajouter",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=ajouter",
                 "Veuillez remplir tous les champs du formulaire correctement !"
-            ); 
-        }       
-        $manager = $this->modelManager;          
+            );
+        }
+        $manager = $this->modelManager;
         $post = new \models\Post([
-                'title' => $title, 
-                'standfirst' => $standfirst, 
-                'content' => $content,
-                'author' => $author, 
-                'creationDate' => $creationDate,
-                'published' => $published, 
-                'userId' => $userId                
-            ]);
-     
-     $manager->add($post);
-     $this->redirectWithSuccess(
-        "index.php?controller=Post&action=liste",
-        "Post ajouté avec succès !"
-    );   
-                   
+            'title' => $title,
+            'standfirst' => $standfirst,
+            'content' => $content,
+            'author' => $author,
+            'creationDate' => $creationDate,
+            'published' => $published,
+            'userId' => $userId
+        ]);
+
+        $manager->add($post);
+        $this->redirectWithSuccess(
+            "index.php?controller=Post&action=liste",
+            "Post ajouté avec succès !"
+        );
     }
 
-    function modifier(){
+    function modifier()
+    {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
                 "Il faut être administrateur pour modifier un post !"
             );
-        } 
+        }
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        
+
         if (!$id) {
-            $this->redirectWithError("index.php","Vous essayez de modifier un post qui n'existe pas ...");
-        }       
+            $this->redirectWithError(
+                "index.php?controller=Post&action=liste",
+                "Vous devez préciser un id !"
+            );
+        }
         $manager = new $this->modelManager;
-        
+
         $post = $manager->get($id);
+        if (!$post) {
+            $this->redirectWithError(
+                "index.php?Post&action=liste",
+                "Vous essayez de modifier un post qui n'existe pas ..."
+            );
+        }
         \models\Renderer::render("updatePost", compact('post'));
-                
     }
 
-    function ajouter(){
+    function ajouter()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour ajouter un Post !"
             );
-        }   
+        }
         \models\Renderer::render("addPost");
     }
 
-    function ModifierPost(){
+    function modifierPost()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour modifier un Post !"
             );
         }
-        
-        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT); 
-        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);       
+
+        $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+        $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
         $standfirst = filter_input(INPUT_POST, 'standfirst', FILTER_SANITIZE_SPECIAL_CHARS);
-        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS); 
-        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);      
+        $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_SPECIAL_CHARS);
+        $author =  filter_input(INPUT_POST, 'author', FILTER_SANITIZE_SPECIAL_CHARS);
         $modificationDate = date('y-m-d');
         $published = filter_input(INPUT_POST, 'published', FILTER_SANITIZE_SPECIAL_CHARS);
         $userId = filter_input(INPUT_POST, 'userId', FILTER_VALIDATE_INT);
 
         if (!$id || !$title || !$standfirst || !$content || !$author || !$modificationDate || !$published || !$userId) {
-            $this->redirectWithError("index.php?controller=Post&action=ajouter",
-            "Veuillez remplir tous les champs du formulaire correctement !"
-        ); 
+            $this->redirectWithError(
+                "index.php?controller=Post&action=ajouter",
+                "Veuillez remplir tous les champs du formulaire correctement !"
+            );
         }
 
         $manager = new $this->modelManager;
         $post = new \models\Post([
-        'id' => $id,
-        'title' => $title,
-        'standfirst' => $standfirst,
-        'content' => $content,
-        'author' => $author,        
-        'modificationDate' => $modificationDate,
-        'published' => $published,
-        'userId' => $userId  
+            'id' => $id,
+            'title' => $title,
+            'standfirst' => $standfirst,
+            'content' => $content,
+            'author' => $author,
+            'modificationDate' => $modificationDate,
+            'published' => $published,
+            'userId' => $userId
         ]);
 
         $manager->update($post);
@@ -153,50 +167,47 @@ class Post{
             "index.php?controller=Post&action=liste",
             "Post modifié avec succès !"
         );
-        
     }
 
-    function liste(){
+    function liste()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour afficher la liste des posts !"
             );
-        }   
+        }
         $manager = $this->modelManager;
         $posts = $manager->getList();
         \models\Renderer::render("liste", compact('posts'));
     }
 
-    function supprimer(){
+    function supprimer()
+    {
         if (!\models\Session::isAdmin()) {
-            $this->redirectWithError("index.php?controller=Post&action=accueil",
+            $this->redirectWithError(
+                "index.php?controller=Post&action=accueil",
                 "Vous devez etre administrateur pour supprimer un post !"
             );
-        }   
-        $manager = $this->modelManager;  
+        }
+        $manager = $this->modelManager;
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        if (!$id){
-            $this->redirectWithError("index.php?controller=Post&action=liste",
+        if (!$id) {
+            $this->redirectWithError(
+                "index.php?controller=Post&action=liste",
                 "Vous devez préciser un id !"
             );
-        }     
-        $manager->delete($id);               
+        }
+        $post = $manager->delete($id);
+        if (!$post) {
+            $this->redirectWithError(
+                "index.php?controller=Post&action=liste",
+                "Vous essayez de supprimer un post qui n'existe pas ..."
+            );
+        }
         $this->redirectWithSuccess(
             "index.php?controller=Post&action=liste",
             "Post supprimé avec succès !"
         );
     }
-    
-    protected function redirectWithError(string $url, string $message)
-    {
-        \models\Session::addFlash('error', $message);
-        \models\Http::redirect($url);
-    }
-    
-    protected function redirectWithSuccess(string $url, string $message)
-    {
-        \models\Session::addFlash('success', $message);
-        \models\Http::redirect($url);
-    }        
 }
-?>
