@@ -24,7 +24,7 @@
                             <div class="serial"><?= $value->getContent(); ?></div>
                             <div class="serial"><?= $value->getAuthor(); ?></div>
                             <div class="serial"><a href="index.php?controller=Comment&action=valider&id=<?= $value->getId(); ?>">Valider</a></div>
-                            <div class="serial"><a href="index.php?controller=Comment&action=supprimer&id=<?= $value->getId(); ?>" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
+                            <div class="serial"><a href="index.php?controller=Comment&action=supprimer&id=<?= $value->getId(); ?>&token=<?= $_SESSION['token']; ?>" onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
                         </div>
                     <?php } ?>
                 </div>

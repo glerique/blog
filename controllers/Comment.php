@@ -31,6 +31,21 @@ class Comment extends \controllers\Controller
             );
         }
 
+        $token =  filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide  pour ajouter un commentaire !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=Post&action=afficher&id=$postId";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour ajouter un commentaire !"
+            );
+        }
 
         $comment = new \models\Comment([
             'content' => $content,
@@ -54,7 +69,7 @@ class Comment extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour afficher la liste des commentaires !"
             );
         }
@@ -67,7 +82,7 @@ class Comment extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?phpcontroller=Post&action=accueil",
+                "index.php",
                 "Il faut être administrateur pour valider un commentaire !"
             );
         }
@@ -96,7 +111,7 @@ class Comment extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour valider un commentaire !"
             );
         }
@@ -108,6 +123,22 @@ class Comment extends \controllers\Controller
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
                 "Veuillez remplir tous les champs du formulaire correctement !"
+            );
+        }
+
+        $token =  filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide  pour valider un commentaire !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=Comment&action=valider&id=$id";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour valider un commentaire !"
             );
         }
 
@@ -129,7 +160,7 @@ class Comment extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour supprimer un commentaire !"
             );
         }
@@ -139,6 +170,22 @@ class Comment extends \controllers\Controller
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
                 "Vous devez préciser un id !"
+            );
+        }
+
+        $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide pour supprimer un commentaire !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=Comment&action=liste";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour supprimer un commentaire !"
             );
         }
         $comment = $manager->delete($id);

@@ -15,7 +15,7 @@ class Post extends \controllers\Controller
         \models\Renderer::render("accueil", compact('posts'));
     }
 
-    //Affiche la fiche produit en fonction de l'id recupéré par GET
+    //Affiche un post en fonction de l'id recupéré par GET
     function afficher()
     {
         $manager = $this->modelManager;
@@ -44,6 +44,7 @@ class Post extends \controllers\Controller
         \models\Renderer::render("post", compact('post', 'comments'));
     }
 
+
     function ajouterPost()
     {
         if (!\models\Session::isAdmin()) {
@@ -67,6 +68,23 @@ class Post extends \controllers\Controller
                 "Veuillez remplir tous les champs du formulaire correctement !"
             );
         }
+
+        $token =  filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php?controller=Post&action=ajouter",
+                "Vous devez avoir un jeton valide  pour ajouter un post !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=Post&action=ajouter";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour ajouter un post !"
+            );
+        }
+
         $manager = $this->modelManager;
         $post = new \models\Post([
             'title' => $title,
@@ -149,6 +167,22 @@ class Post extends \controllers\Controller
             );
         }
 
+        $token =  filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide  pour modifier un post !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=Post&action=modifier&id=$id";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour ajouter un post !"
+            );
+        }
+
         $manager = new $this->modelManager;
         $post = new \models\Post([
             'id' => $id,
@@ -186,7 +220,7 @@ class Post extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour supprimer un post !"
             );
         }
@@ -198,6 +232,22 @@ class Post extends \controllers\Controller
                 "Vous devez préciser un id !"
             );
         }
+        $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide  pour supprimer un post !"
+            );
+        }
+        $url = "http://localhost/blog/index.php?controller=Post&action=liste";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour supprimer un post !"
+            );
+        }
+
         $post = $manager->delete($id);
         if (!$post) {
             $this->redirectWithError(

@@ -38,10 +38,12 @@
                 <option value="Membre" <?php if($user->getUserRole()=="Membre") {echo "selected";} ?>>Membre</option>
                 <option value="Admin"  <?php if($user->getUserRole()=="Admin") {echo "selected";} ?>>Admin</option>                           
                 </select>
-                </div>               
+                </div> 
+                <input class="form-control" type="hidden" name="token" value="<?= $_SESSION['token']; ?>">              
               </div>              
             <div class="form-group mt-3">
-           <input type="submit" class="button button-contactForm" name="modifier" value="modifier">
+           <input type="submit" class="button button-contactForm" name="modifier" value="Modifier">
+           <input type="button" class="button button-contactForm" value="Retour" onClick="document.location.href = document.referrer" />
             </div>
           </form>
         </div>       

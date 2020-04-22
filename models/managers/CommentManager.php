@@ -72,7 +72,7 @@ class CommentManager extends \models\Database
                                       validated as validated, postId , userId                                      
                                       FROM comment
                                       WHERE postId = :postId 
-                                      AND validated = 1 ORDER BY id ASC');
+                                      AND validated = 2 ORDER BY id ASC');
     $query->execute(['postId' => $postId]);
     $query->execute();
     $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\models\Comment');
@@ -92,7 +92,7 @@ class CommentManager extends \models\Database
 
 
     $query = $this->db->prepare('SELECT id, content, date_format(creationDate,"%d/%m/%Y") AS creationDate,
-                                    validated as validated, postId, userId FROM comment WHERE validated = 0 ORDER BY id');
+                                    validated as validated, postId, userId FROM comment WHERE validated = 1 ORDER BY id');
     $query->execute();
 
     $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\models\Comment');

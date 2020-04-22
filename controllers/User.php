@@ -82,7 +82,7 @@ class User extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour modifier un utilisateur !"
             );
         }
@@ -117,7 +117,7 @@ class User extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez etre administrateur pour modifier un utilisateur !"
             );
         }
@@ -133,6 +133,22 @@ class User extends \controllers\Controller
             $this->redirectWithError(
                 "index.php?controller=User&action=liste",
                 "Veuillez remplir tous les champs du formulaire correctement !"
+            );
+        }
+
+        $token =  filter_input(INPUT_POST, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
+        if (!$token || $token != $_SESSION['token']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir un jeton valide  pour modifier un utilisateur !"
+            );
+        }
+
+        $url = "http://localhost/blog/index.php?controller=User&action=modifier&id=$id";
+        if ($url != $_SERVER['HTTP_REFERER']) {
+            $this->redirectWithError(
+                "index.php",
+                "Vous devez avoir la bonne url  pour modifier un utilisateur !"
             );
         }
 
@@ -218,7 +234,7 @@ class User extends \controllers\Controller
         \models\Session::disconnect();
 
         $this->redirectWithSuccess(
-            "index.php?controller=Post&action=accueil",
+            "index.php",
             "Vous êtes désormais déconnecté !"
         );
     }
