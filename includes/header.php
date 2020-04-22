@@ -23,6 +23,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->                    
+                    <a class="navbar-brand logo_h" href="index.php"><img src="assets/img/logo.png" alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -31,13 +32,14 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=accueil">Accueil</a></li>  
-                            <li class="nav-item submenu dropdown">
+                            <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=accueil">Accueil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="upload/cv.pdf" target="_blank">Mon CV</a></li>  
                             <?php if (\models\Session::isAdmin()) { ?>
+                            <li class="nav-item submenu dropdown">                            
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administrateur</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=ajouter">Ajouter article</a></li> 
-                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=liste">Liste articles</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=ajouter">Ajouter un post </a></li> 
+                                    <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=liste">Liste des posts</a></li>
                                     <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=liste">Liste utilisateurs</a></li>
                                     <li class="nav-item"><a class="nav-link" href="index.php?controller=Comment&action=liste">Commentaires</a></li>                                                                          
                                 </ul>
@@ -48,9 +50,9 @@
                                 <?php } 
                                 if (\models\Session::isConnected()) { ?>
                             <li class="nav-item"><a class="nav-link" href="index.php?controller=User&action=logout">Logout</a></li>
-                                <?php }?>    
-                                <li class="nav-item"><a class="nav-link" href="index.php?controller=Contact&action=formContact">Contact</a></li>
-                            </ul>
+                                <?php }?>
+                                <li class="nav-item"><a class="nav-link" href="index.php?controller=Contact&action=formContact">Contact</a></li>        
+                        </ul>
                     </div>
                     <div class="right-button">
                         <ul>                            
