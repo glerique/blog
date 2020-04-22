@@ -6,7 +6,7 @@
 <section class="latest-blog-area area-padding">
     <div class="container">
         <div class="section-top-border">
-            <h3 class="mb-30 title_color">Liste des Posts</h3>
+            <h3 class="mb-30 title_color">Liste des Posts</h3>            
             <div class="progress-table-wrap">
                 <div class="progress-table">
                     <div class="table-head">
@@ -19,13 +19,12 @@
                     <?php
                     foreach ($posts as $value) {
                     ?>
-                        <div class="table-row">
-
+                        <div class="table-row">                            
                             <div class="serial"><?= $value->getId(); ?></div>
                             <div class="country"><?= $value->getTitle(); ?></div>
                             <div class="country"><?=$value->getPublished(); ?></div>  
                             <div class="visit"><a href="index.php?controller=Post&action=modifier&id=<?= $value->getId(); ?>">Modifier</a></div>
-                            <div class="percentage"><a href="index.php?controller=Post&action=supprimer&id=<?= $value->getId(); ?>"  onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
+                            <div class="percentage"><a href="index.php?controller=Post&action=supprimer&id=<?= $value->getId(); ?>&token=<?= $_SESSION['token']; ?>"  onclick="return(confirm('Etes-vous sûr de vouloir supprimer cet article'));">Supprimer</a></div>
                         </div>
                     <?php } ?>
                 </div>
