@@ -37,15 +37,7 @@ class Comment extends \controllers\Controller
                 "index.php",
                 "Vous devez avoir un jeton valide  pour ajouter un commentaire !"
             );
-        }
-
-        $url = "http://localhost/blog/index.php?controller=Post&action=afficher&id=$postId";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour ajouter un commentaire !"
-            );
-        }
+        }        
 
         $comment = new \models\Comment([
             'content' => $content,
@@ -134,14 +126,7 @@ class Comment extends \controllers\Controller
             );
         }
 
-        $url = "http://localhost/blog/index.php?controller=Comment&action=valider&id=$id";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour valider un commentaire !"
-            );
-        }
-
+        
         $manager = new $this->modelManager;
         $comment = new \models\Comment([
             'id' => $id,
@@ -181,13 +166,7 @@ class Comment extends \controllers\Controller
             );
         }
 
-        $url = "http://localhost/blog/index.php?controller=Comment&action=liste";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour supprimer un commentaire !"
-            );
-        }
+       
         $comment = $manager->delete($id);
         if (!$comment) {
             $this->redirectWithError(
