@@ -73,7 +73,7 @@ class User extends \controllers\Controller
 
         $manager->add($user);
         $this->redirectWithSuccess(
-            "index.php?controller=Post&action=accueil",
+            "index.php",
             "Vous pouvez desormais commenter les articles après vous etre identifié !"
         );
     }
@@ -83,7 +83,7 @@ class User extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour modifier un utilisateur !"
+                "Vous devez être administrateur pour modifier un utilisateur !"
             );
         }
 
@@ -118,7 +118,7 @@ class User extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour modifier un utilisateur !"
+                "Vous devez être administrateur pour modifier un utilisateur !"
             );
         }
 
@@ -144,14 +144,6 @@ class User extends \controllers\Controller
             );
         }
 
-        $url = "http://localhost/blog/index.php?controller=User&action=modifier&id=$id";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour modifier un utilisateur !"
-            );
-        }
-
         $manager = $this->modelManager;
         $user = new \models\User([
             'id' => $id,
@@ -173,8 +165,8 @@ class User extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
-                "Vous devez etre administrateur pour supprimer un utilisateur !"
+                "index.php",
+                "Vous devez être administrateur pour afficher la liste des utilisateurs !"
             );
         }
         $manager = $this->modelManager;
@@ -223,7 +215,7 @@ class User extends \controllers\Controller
 
 
             $this->redirectWithSuccess(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Bravo <strong>$user[firstName]</strong>, vous êtes désormais connecté(e) au blog !"
             );
         }

@@ -18,7 +18,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isConnected()) {
             $this->redirectWithError(
                 "index.php?controller=Post&action=afficher&id=$postId",
-                "Il faut être connecté pour pourvoir ajouter un commentaire !"
+                "Il faut être connecté pour pouvoir ajouter un commentaire !"
             );
         }
         $userId = $_SESSION['user']['id'];
@@ -51,8 +51,8 @@ class Comment extends \controllers\Controller
         $manager->add($comment);
 
         $this->redirectWithSuccess(
-            "index.php?controller=Post&action=accueil",
-            "commentaire ajouté avec succès, en attente de validation de l'administrateur !"
+            "index.php",
+            "Commentaire ajouté avec succès, en attente de validation de l'administrateur !"
         );
     }
 

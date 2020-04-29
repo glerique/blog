@@ -71,8 +71,9 @@
               </div>
 
               <input class="form-control" type="hidden" name="postId" value="<?= $post->getId(); ?>">
+              <?php if (\models\Session::isConnected()) { ?>   
               <input class="form-control" type="hidden" name="token" value="<?= $_SESSION['token']; ?>">
-
+               <?php } ?>
             </div>
             <div class="form-group">
               <button type="submit" class="button button-contactForm">Envoyer Message</button>
