@@ -23,7 +23,7 @@ class Post extends \controllers\Controller
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
         if (!$id) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
+                "index.php",
                 "Vous devez préciser un id !"
             );
         }
@@ -34,8 +34,7 @@ class Post extends \controllers\Controller
             $this->redirectWithError("index.php", "Vous essayez d'afficher un post qui n'existe pas ...");
         }
 
-        $post = $manager->get($id);
-
+        
         $postId = $id;
 
         $commentsModel = new \models\managers\CommentManager();
@@ -74,14 +73,6 @@ class Post extends \controllers\Controller
             $this->redirectWithError(
                 "index.php?controller=Post&action=ajouter",
                 "Vous devez avoir un jeton valide  pour ajouter un post !"
-            );
-        }
-
-        $url = "http://localhost/blog/index.php?controller=Post&action=ajouter";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour ajouter un post !"
             );
         }
 
@@ -135,8 +126,8 @@ class Post extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
-                "Vous devez etre administrateur pour ajouter un Post !"
+                "index.php",
+                "Vous devez être administrateur pour ajouter un Post !"
             );
         }
         \models\Renderer::render("addPost");
@@ -146,8 +137,8 @@ class Post extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
-                "Vous devez etre administrateur pour modifier un Post !"
+                "index.php",
+                "Vous devez être administrateur pour modifier un Post !"
             );
         }
 
@@ -175,14 +166,6 @@ class Post extends \controllers\Controller
             );
         }
 
-        $url = "http://localhost/blog/index.php?controller=Post&action=modifier&id=$id";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour ajouter un post !"
-            );
-        }
-
         $manager = new $this->modelManager;
         $post = new \models\Post([
             'id' => $id,
@@ -207,8 +190,8 @@ class Post extends \controllers\Controller
     {
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
-                "index.php?controller=Post&action=accueil",
-                "Vous devez etre administrateur pour afficher la liste des posts !"
+                "index.php",
+                "Vous devez être administrateur pour afficher la liste des posts !"
             );
         }
         $manager = $this->modelManager;
@@ -221,7 +204,7 @@ class Post extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour supprimer un post !"
+                "Vous devez être administrateur pour supprimer un post !"
             );
         }
         $manager = $this->modelManager;
@@ -232,6 +215,7 @@ class Post extends \controllers\Controller
                 "Vous devez préciser un id !"
             );
         }
+        
         $token = filter_input(INPUT_GET, 'token', FILTER_SANITIZE_SPECIAL_CHARS);
 
         if (!$token || $token != $_SESSION['token']) {
@@ -240,14 +224,7 @@ class Post extends \controllers\Controller
                 "Vous devez avoir un jeton valide  pour supprimer un post !"
             );
         }
-        $url = "http://localhost/blog/index.php?controller=Post&action=liste";
-        if ($url != $_SERVER['HTTP_REFERER']) {
-            $this->redirectWithError(
-                "index.php",
-                "Vous devez avoir la bonne url  pour supprimer un post !"
-            );
-        }
-
+       
         $post = $manager->delete($id);
         if (!$post) {
             $this->redirectWithError(
