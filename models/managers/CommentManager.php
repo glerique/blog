@@ -49,21 +49,31 @@ class CommentManager extends \models\Database
     }
   }
 
-
   public function get($id)
   {
     $id = (int) $id;
     $query = $this->db->prepare('SELECT id, content, date_format(creationDate,"%d/%m/%Y") AS creationDate, 
-                                     validated, postId, userId FROM comment WHERE id = ' . $id);
+                                     validated, postId, userId FROM comment 
+                                    WHERE id =  :id');
+    $query->execute(['id' => $id]);
+    $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\models\Comment');                                
     $query->execute();
     if ($query->rowCount() != 1) {
       return false;
     } else {
-      $donnees = $query->fetch(\PDO::FETCH_ASSOC);
-      return new \models\Comment($donnees);
+      
+      $comment = $query->fetch();
+      
+      $postManager = new \models\managers\PostManager();
+      $comment->setTitle($postManager->getPostTitle($comment->getPostId())); 
+         
+      return $comment;    
+      
     }
   }
 
+
+ 
   public function findAllWithPost($postId)
   {
     // On récupère les commentaires
@@ -78,7 +88,7 @@ class CommentManager extends \models\Database
     $query->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, '\models\Comment');
 
     $comments = $query->fetchAll();
-
+    
     foreach ($comments as $comment) {
       $userManager = new \models\managers\UserManager();
       $comment->setAuthor($userManager->getNickname($comment->getUserId()));
