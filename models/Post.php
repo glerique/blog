@@ -2,9 +2,9 @@
 
 namespace models;
 
-class Post {
+class Post extends Model
+{
 
-    private $id;
     private $title;
     private $standfirst;
     private $content;
@@ -14,101 +14,93 @@ class Post {
     private $published;
     private $userId;
 
-    public function hydrate(array $donnees){
-        foreach ($donnees as $key => $value){   
-            // On récupère le nom du setter correspondant à l'attribut.
-            $method = 'set'.ucfirst($key);
-            // Si le setter correspondant existe.
-            if (method_exists($this, $method)){
-            // On appelle le setter.
-            $this->$method($value);
-            }
-        }
-    }
 
-    // Important car sinon l'objet à sa création est vide.
-    public function __construct($valeurs = [])
+    //GETTERS    
+
+    function getTitle()
     {
-      if (!empty($valeurs)) // Si on a spécifié des valeurs, alors on hydrate l'objet.
-      {
-        $this->hydrate($valeurs);
-      }
-    }
-    
-
-    //GETTERS
-
-    function getId(){
-        return $this->id;
-    }
-
-    function getTitle(){
         return $this->title;
     }
 
-    function getStandfirst(){
+    function getStandfirst()
+    {
         return $this->standfirst;
     }
 
-    function getContent(){
+    function getContent()
+    {
         return $this->content;
     }
 
-    function getAuthor(){
+    function getAuthor()
+    {
         return $this->author;
     }
 
-    function getCreationDate(){
+    function getCreationDate()
+    {
         return $this->creationDate;
     }
 
-    function getModificationDate(){
+    function getModificationDate()
+    {
         return $this->modificationDate;
     }
 
-    function getPublished(){
+    function getPublished()
+    {
         return $this->published;
     }
 
-    function getUserId(){
+    function getUserId()
+    {
         return $this->userId;
     }
 
     //SETTERS
 
-    function setId($id){
+    function setId($id)
+    {
         $this->id = $id;
     }
 
-    function setTitle($title){
+    function setTitle($title)
+    {
         $this->title = $title;
     }
-    
-    function setStandfirst($standfirst){
-        $this->standfirst = $standfirst;
-    }  
 
-    function setContent($content){
+    function setStandfirst($standfirst)
+    {
+        $this->standfirst = $standfirst;
+    }
+
+    function setContent($content)
+    {
         $this->content = $content;
     }
-    
-    function setAuthor($author){
+
+    function setAuthor($author)
+    {
         $this->author = $author;
-    }  
+    }
 
-    function setCreationDate($creationDate){
+    function setCreationDate($creationDate)
+    {
         $this->creationDate = $creationDate;
-    }  
+    }
 
-    function setModificationDate($modificationDate){
+    function setModificationDate($modificationDate)
+    {
         $this->modificationDate = $modificationDate;
     }
-    
-    function setPublished($published){
-        $this->published = $published;
-    }  
 
-    function setUserId($userId){
+    function setPublished($published)
+    {
+        $this->published = $published;
+    }
+
+    function setUserId($userId)
+    {
         $this->userId = $userId;
-    }   
+    }
 }
