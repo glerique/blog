@@ -15,10 +15,14 @@
 
             <input class="form-control" type="hidden" name="id" value="<?= $comment->getId(); ?>">
           </div>
-
           <div class="col-12">
             <div class="form-group">
-              Titre : <input class="form-control" type="text" name="title" value="<?= $comment->getContent(); ?>" readonly>
+              Titre de l'article : <input class="form-control" type="text" name="title" value="<?= $comment->getTitle(); ?>" readonly>
+            </div>
+            </div>
+          <div class="col-12">
+            <div class="form-group">
+              Commentaire : <input class="form-control" type="text" name="title" value="<?= $comment->getContent(); ?>" readonly>
             </div>
           </div>
           <input class="form-control" type="hidden" name="validated" value="2">
