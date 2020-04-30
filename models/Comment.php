@@ -11,6 +11,7 @@ class Comment extends Model
     private $postId;
     private $userId;
     private $author;
+    private $title;
 
     //GETTERS   
 
@@ -45,6 +46,11 @@ class Comment extends Model
         return $this->author;
     }
 
+    function getTitle()
+    {
+        return $this->title;
+    }
+
 
     //SETTERS
 
@@ -76,5 +82,10 @@ class Comment extends Model
     function setAuthor($author)
     {
         $this->author = $author;
+    }
+
+    function setTitle($title)
+    {
+        $this->title = $title;
     }
 }
