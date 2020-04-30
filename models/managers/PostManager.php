@@ -68,6 +68,17 @@ class PostManager extends \models\Database
     }
   }
 
+  public function getPostTitle($postId){
+
+    $query = $this->db->prepare('SELECT title FROM post WHERE id = ' . $postId);
+    $query->execute();
+
+    $data = $query->fetch(\PDO::FETCH_ASSOC);
+    
+    //Permet d'obtenir le resultat en chaine de caratère et non en tableau 
+    return implode($data);
+  }
+
   public function getList()
   {
 
