@@ -38,7 +38,7 @@ class ContactManager
             $mail->send();
             return true;
         }
-        // si le try ne marche pas > exception ici 
+        // si le try ne marche pas 
         catch (\PHPMailer\PHPMailer\Exception $e) {
             return false;
         }
