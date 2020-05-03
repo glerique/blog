@@ -24,7 +24,7 @@
             </div>
             <div class="col-12">
               <div class="form-group">
-                <textarea class="form-control w-100" name="content" cols="30" rows="9" placeholder="Ecrire le contenu de l'article"></textarea>
+                Contenu : <textarea class="form-control w-100" name="content" cols="30" rows="9" placeholder="Ecrire le contenu de l'article"></textarea>
               </div>
             </div>
             <div class="col-12">

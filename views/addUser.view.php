@@ -1,6 +1,6 @@
 <section class="hero-banner d-flex align-items-center">
         <div class="container text-center">
-            <h2>Utilisateur</h2>            
+            <h2>Inscription</h2>            
         </div>
     </section> 
     <section class="contact-section area-padding">
@@ -19,7 +19,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Prenom : <input class="form-control" type="text" name="firstName">
+                  Prénom : <input class="form-control" type="text" name="firstName">
                 </div>
               </div>
               <div class="col-12">
@@ -39,7 +39,7 @@
               </div>
               <div class="col-12">
                 <div class="form-group">
-                  Comfirmer mot de Passe : <input class="form-control" type ="password" name="confirmPswd">
+                  Confirmez le mot de Passe : <input class="form-control" type ="password" name="confirmPswd">
                 </div>
               </div>              
               <div class="col-12">
@@ -49,7 +49,7 @@
               </div>              
             </div>
             <div class="form-group mt-3">
-           <input type="submit" class="button button-contactForm" name="ajouter" value="poster">
+           <input type="submit" class="button button-contactForm" name="ajouter" value="Envoyer">
             </div>
           </form>
         </div>       

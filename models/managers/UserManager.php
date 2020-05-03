@@ -58,7 +58,7 @@ class UserManager extends \models\Database
     $query = $this->db->prepare('SELECT nickname FROM user WHERE id = ' . $id);
     $query->execute();
     $data = $query->fetch(\PDO::FETCH_ASSOC);
-    //Permet d'obtenir le resultat en chiane de caratère et non en tableau 
+    //Permet d'obtenir le resultat en chaine de caratère et non en tableau 
     return implode($data);
   }
 

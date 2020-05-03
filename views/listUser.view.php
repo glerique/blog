@@ -1,6 +1,6 @@
 <section class="hero-banner d-flex align-items-center">
     <div class="container text-center">
-        <h2>Utilisateurs</h2>
+        <h2>Liste des utilisateurs</h2>
     </div>
 </section>
 <section class="latest-blog-area area-padding">

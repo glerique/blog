@@ -32,7 +32,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item"><a class="nav-link" href="index.php?controller=Post&action=accueil">Accueil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php">Accueil</a></li>
                             <li class="nav-item"><a class="nav-link" href="upload/cv.pdf" target="_blank">Mon CV</a></li>  
                             <?php if (\models\Session::isAdmin()) { ?>
                             <li class="nav-item submenu dropdown">                            

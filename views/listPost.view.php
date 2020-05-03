@@ -1,12 +1,12 @@
 <section class="hero-banner d-flex align-items-center">
     <div class="container text-center">
-        <h2>Liste</h2>
+        <h2>Liste des posts</h2>
     </div>
 </section>
 <section class="latest-blog-area area-padding">
     <div class="container">
         <div class="section-top-border">
-            <h3 class="mb-30 title_color">Liste des Posts</h3>            
+            <h3 class="mb-30 title_color">Liste des posts</h3>            
             <div class="progress-table-wrap">
                 <div class="progress-table">
                     <div class="table-head">

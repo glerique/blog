@@ -21,7 +21,7 @@
                 <div class="col-lg-12">
                     <div class="area-heading">
                         <h4>Derniers Articles</h4>
-                        <p>Life firmament under them evening make after called dont saying likeness<br> isn't wherein also forth she'd air two without</p>
+                        <p>Retrouvez les derniers articles de mon blog ! </p>
                     </div>           
                 </div>
             </div>          
@@ -37,11 +37,11 @@
                         </div>
                         <div class="single-blog-content">                            
                             <p class="date">
-                            Derniere mise à jour le : <?= $value->getModificationDate(); ?> </p>
-                            <h4>
+                            <i>Derniere mise à jour le : <?= $value->getModificationDate(); ?> </i></p>
+                            <h3>
                             <?= ucfirst ($value->getTitle()); ?>
-                            </h4>
-                            <p> <?= $value->getStandfirst(); ?></p>                           
+                            </h3>
+                            <p class="date"> <?= ucfirst ($value->getStandfirst()); ?></p>                           
                             </a>
 
                         </div>
