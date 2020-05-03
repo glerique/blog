@@ -196,7 +196,7 @@ class Post extends \controllers\Controller
         }
         $manager = $this->modelManager;
         $posts = $manager->getList();
-        \models\Renderer::render("liste", compact('posts'));
+        \models\Renderer::render("listPost", compact('posts'));
     }
 
     function supprimer()
