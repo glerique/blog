@@ -1,10 +1,11 @@
 # Blog
 <p>Projet 5 du parcours développeur d'application PHP/Symfony chez OpenClassrooms :</p>
 <p>Création d'un Blog via une architecture MVC Orienté objet.</p>
+<p>Réalisé en PHP 7.3.5</p>
 
 <hr />
 <p>Code Quality :</p>
-<a href="https://codeclimate.com/github/glerique/blog/maintainability"><img src="https://api.codeclimate.com/v1/badges/ae4039796c8ceba9fb0d/maintainability" /></a>
+<a href="https://codeclimate.com/github/glerique/blog/maintainability"><img src="https://api.codeclimate.com/v1/badges/7345238ad66e40c55127/maintainability" /></a>
     
 <hr />
 Installation
@@ -19,6 +20,6 @@ Installation
 
     Pour acceder à l'administration du blog, vous pouvez vous identifiez-vous avec les identifiants suivant :
         email : admin@admin.com
-        pswd : Admin
+        pswd : admin
 
 
