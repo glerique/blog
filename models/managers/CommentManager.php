@@ -6,7 +6,7 @@ namespace models\managers;
 class CommentManager extends \models\Database
 {
 
-  private $db; // Instance de PDO
+  protected $db; // Instance de PDO
 
   public function __construct()
   {
