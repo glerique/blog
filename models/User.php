@@ -5,12 +5,12 @@ namespace Models;
 class User extends Model
 {
 
-    private $lastName;
-    private $firstName;
-    private $email;
-    private $nickname;
-    private $pswd;
-    private $userRole;
+    protected $lastName;
+    protected $firstName;
+    protected $email;
+    protected $nickname;
+    protected $pswd;
+    protected $userRole;
 
     //GETTERS
 
