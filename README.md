@@ -18,7 +18,7 @@ Installation
 
     Démarrez le projet en local en pointant sur le dossier blog.
 
-    Pour acceder à l'administration du blog, vous pouvez vous identifiez-vous avec les identifiants suivant :
+    Pour acceder à l'administration du blog, vous pouvez vous identifier avec les identifiants suivant :
         email : admin@admin.com
         pswd : admin
 
