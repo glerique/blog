@@ -5,7 +5,7 @@ namespace models\managers;
 class UserManager extends \models\Database
 {
 
-  private $db; // Instance de PDO
+  protected $db; // Instance de PDO
 
   public function __construct()
   {
@@ -29,13 +29,13 @@ class UserManager extends \models\Database
   public function add(\models\User $user)
   {
     $query = $this->db->prepare('INSERT INTO user(lastName, firstName, email, nickname, pswd, userRole)
-        VALUES(:nom, :prenom, :mail, :pseudo, :mdp, :droit)');
-    $query->bindValue(':nom', $user->getLastName());
-    $query->bindValue(':prenom', $user->getFirstName());
-    $query->bindValue(':mail', $user->getEmail());
-    $query->bindValue(':pseudo', $user->getNickname());
-    $query->bindValue(':mdp', $user->getPswd());
-    $query->bindValue(':droit', $user->getUserRole());
+        VALUES(:lastName, :firstName, :email, :nickname, :pswd, :userRole)');
+    $query->bindValue(':lastName', $user->getLastName());
+    $query->bindValue(':firstName', $user->getFirstName());
+    $query->bindValue(':email', $user->getEmail());
+    $query->bindValue(':nickname', $user->getNickname());
+    $query->bindValue(':pswd', $user->getPswd());
+    $query->bindValue(':userRole', $user->getUserRole());
     $query->execute();
   }
 
