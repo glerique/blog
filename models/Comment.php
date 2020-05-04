@@ -5,13 +5,13 @@ namespace models;
 class Comment extends Model
 {
 
-    private $content;
-    private $creationDate;
-    private $validated;
-    private $postId;
-    private $userId;
-    private $author;
-    private $title;
+    protected $content;
+    protected $creationDate;
+    protected $validated;
+    protected $postId;
+    protected $userId;
+    protected $author;
+    protected $title;
 
     //GETTERS   
 
