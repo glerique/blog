@@ -18,7 +18,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isConnected()) {
             $this->redirectWithError(
                 "index.php?controller=Post&action=afficher&id=$postId",
-                "Il faut être connecté pour pouvoir ajouter un commentaire !"
+                "Il faut être connecté pour pouvoir ajouter un commentaire"
             );
         }
         $userId = $_SESSION['user']['id'];
@@ -27,7 +27,7 @@ class Comment extends \controllers\Controller
         if (!$content) {
             $this->redirectWithError(
                 "index.php?controller=Post&action=afficher&id=$postId",
-                "Veuillez remplir tous les champs du formulaire correctement !"
+                "Veuillez remplir tous les champs du formulaire correctement"
             );
         }
 
@@ -35,7 +35,7 @@ class Comment extends \controllers\Controller
         if (!$token || $token != $_SESSION['token']) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez avoir un jeton valide  pour ajouter un commentaire !"
+                "Vous devez avoir un jeton valide  pour ajouter un commentaire"
             );
         }        
 
@@ -52,7 +52,7 @@ class Comment extends \controllers\Controller
 
         $this->redirectWithSuccess(
             "index.php",
-            "Commentaire ajouté avec succès, en attente de validation de l'administrateur !"
+            "Commentaire ajouté avec succès, en attente de validation de l'administrateur"
         );
     }
 
@@ -62,7 +62,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour afficher la liste des commentaires !"
+                "Vous devez etre administrateur pour afficher la liste des commentaires"
             );
         }
         $manager = $this->modelManager;
@@ -75,7 +75,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Il faut être administrateur pour valider un commentaire !"
+                "Il faut être administrateur pour valider un commentaire"
             );
         }
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
@@ -83,7 +83,7 @@ class Comment extends \controllers\Controller
         if (!$id) {
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
-                "Vous devez préciser un id !"
+                "Vous devez préciser un id"
             );
         }
         $manager = new $this->modelManager;
@@ -92,7 +92,7 @@ class Comment extends \controllers\Controller
         if (!$comment) {
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
-                "Vous essayez de valider un commentaire qui n'existe pas ..."
+                "Vous essayez de valider un commentaire qui n'existe pas"
             );
         }
 
@@ -104,7 +104,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour valider un commentaire !"
+                "Vous devez etre administrateur pour valider un commentaire"
             );
         }
 
@@ -114,7 +114,7 @@ class Comment extends \controllers\Controller
         if (!$id || !$validated) {
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
-                "Veuillez remplir tous les champs du formulaire correctement !"
+                "Veuillez remplir tous les champs du formulaire correctement"
             );
         }
 
@@ -122,7 +122,7 @@ class Comment extends \controllers\Controller
         if (!$token || $token != $_SESSION['token']) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez avoir un jeton valide  pour valider un commentaire !"
+                "Vous devez avoir un jeton valide  pour valider un commentaire"
             );
         }
 
@@ -137,7 +137,7 @@ class Comment extends \controllers\Controller
         $manager = new $this->modelManager;
         $this->redirectWithSuccess(
             "index.php?controller=Comment&action=liste",
-            "Commentaire validé avec succès !"
+            "Commentaire validé avec succès"
         );
     }
 
@@ -146,7 +146,7 @@ class Comment extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez etre administrateur pour supprimer un commentaire !"
+                "Vous devez etre administrateur pour supprimer un commentaire"
             );
         }
         $manager = $this->modelManager;
@@ -154,7 +154,7 @@ class Comment extends \controllers\Controller
         if (!$id) {
             $this->redirectWithError(
                 "index.php?controller=Comment&action=liste",
-                "Vous devez préciser un id !"
+                "Vous devez préciser un id"
             );
         }
 
@@ -162,7 +162,7 @@ class Comment extends \controllers\Controller
         if (!$token || $token != $_SESSION['token']) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez avoir un jeton valide pour supprimer un commentaire !"
+                "Vous devez avoir un jeton valide pour supprimer un commentaire"
             );
         }
 
@@ -170,13 +170,13 @@ class Comment extends \controllers\Controller
         $comment = $manager->delete($id);
         if (!$comment) {
             $this->redirectWithError(
-                "index.php?Comment&action=liste",
-                "Vous essayez de supprimer un commentaire qui n'existe pas ..."
+                "index.php?controller=Comment&action=liste",
+                "Vous essayez de supprimer un commentaire qui n'existe pas"
             );
         }
         $this->redirectWithSuccess(
             "index.php?controller=Comment&action=liste",
-            "Commentaire supprimé avec succès !"
+            "Commentaire supprimé avec succès"
         );
     }
 }
