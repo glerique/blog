@@ -24,7 +24,7 @@ class User extends \controllers\Controller
         if (!$lastName || !$firstName || !$email || !$nickname || !$pswd || !$confirmPswd) {
             $this->redirectWithError(
                 "index.php?controller=User&action=ajouter",
-                "Veuillez remplir tous les champs du formulaire correctement !"
+                "Veuillez remplir tous les champs du formulaire correctement"
             );
         }
 
@@ -54,7 +54,7 @@ class User extends \controllers\Controller
         if ($pswd != $confirmPswd) {
             $this->redirectWithError(
                 "index.php?controller=User&action=ajouter",
-                "Les deux mots de passe ne correspondent pas !"
+                "Les deux mots de passe ne correspondent pas"
             );
         }
         //Création d'une clé de hachage pour le mot de passe
@@ -74,7 +74,7 @@ class User extends \controllers\Controller
         $manager->add($user);
         $this->redirectWithSuccess(
             "index.php",
-            "Vous pouvez desormais commenter les articles après vous etre identifié !"
+            "Vous pouvez desormais commenter les articles après vous etre identifié"
         );
     }
 
@@ -83,7 +83,7 @@ class User extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez être administrateur pour modifier un utilisateur !"
+                "Vous devez être administrateur pour modifier un utilisateur"
             );
         }
 
@@ -93,7 +93,7 @@ class User extends \controllers\Controller
         if (!$id) {
             $this->redirectWithError(
                 "index.php?controller=User&action=liste",
-                "Vous devez préciser un id !"
+                "Vous devez préciser un id"
             );
         }
         $manager =  $this->modelManager;
@@ -101,7 +101,7 @@ class User extends \controllers\Controller
         if (!$user) {
             $this->redirectWithError(
                 "index.php?controller=User&action=liste",
-                "Vous essayez de modifier un utilisateur qui n'existe pas ..."
+                "Vous essayez de modifier un utilisateur qui n'existe pas"
             );
         }
 
@@ -118,7 +118,7 @@ class User extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez être administrateur pour modifier un utilisateur !"
+                "Vous devez être administrateur pour modifier un utilisateur"
             );
         }
 
@@ -132,7 +132,7 @@ class User extends \controllers\Controller
         if (!$id || !$lastName || !$firstName  || !$nickname || !$userRole) {
             $this->redirectWithError(
                 "index.php?controller=User&action=liste",
-                "Veuillez remplir tous les champs du formulaire correctement !"
+                "Veuillez remplir tous les champs du formulaire correctement"
             );
         }
 
@@ -140,7 +140,7 @@ class User extends \controllers\Controller
         if (!$token || $token != $_SESSION['token']) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez avoir un jeton valide  pour modifier un utilisateur !"
+                "Vous devez avoir un jeton valide  pour modifier un utilisateur"
             );
         }
 
@@ -157,7 +157,7 @@ class User extends \controllers\Controller
         $manager = new $this->modelManager;
         $this->redirectWithSuccess(
             "index.php?controller=User&action=liste",
-            "Utilisateur modifié avec succès !"
+            "Utilisateur modifié avec succès"
         );
     }
 
@@ -166,7 +166,7 @@ class User extends \controllers\Controller
         if (!\models\Session::isAdmin()) {
             $this->redirectWithError(
                 "index.php",
-                "Vous devez être administrateur pour afficher la liste des utilisateurs !"
+                "Vous devez être administrateur pour afficher la liste des utilisateurs"
             );
         }
         $manager = $this->modelManager;
@@ -216,7 +216,7 @@ class User extends \controllers\Controller
 
             $this->redirectWithSuccess(
                 "index.php",
-                "Bravo <strong>$user[firstName]</strong>, vous êtes désormais connecté(e) au blog !"
+                "Bravo <strong>$user[firstName]</strong>, vous êtes désormais connecté(e) au blog"
             );
         }
     }
@@ -227,7 +227,7 @@ class User extends \controllers\Controller
 
         $this->redirectWithSuccess(
             "index.php",
-            "Vous êtes désormais déconnecté !"
+            "Vous êtes désormais déconnecté(e)"
         );
     }
 }

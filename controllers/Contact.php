@@ -28,7 +28,7 @@ class Contact extends \controllers\Controller
         if (!$lastname || !$firstname || !$email || !$subject || !$content) {
             $this->redirectWithError(
                 "index.php?controller=Contact&action=formContact",
-                "Veuillez remplir tous les champs du formulaire correctement !"
+                "Veuillez remplir tous les champs du formulaire correctement"
             );
         }
 
@@ -38,12 +38,12 @@ class Contact extends \controllers\Controller
         if (!$mail) {
             $this->redirectWithError(
                 "index.php?controller=Contact&action=formContact",
-                "Erreur serveur le mail n'a pas été envoyé!"
+                "Erreur serveur : Le mail n'a pas été envoyé"
             );
         }
         $this->redirectWithSuccess(
             "index.php?controller=Post&action=accueil",
-            "Message envoyé avec succès !"
+            "Message envoyé avec succès"
         );
     }
 }

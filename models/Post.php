@@ -5,14 +5,14 @@ namespace models;
 class Post extends Model
 {
 
-    private $title;
-    private $standfirst;
-    private $content;
-    private $author;
-    private $creationDate;
-    private $modificationDate;
-    private $published;
-    private $userId;
+    protected $title;
+    protected $standfirst;
+    protected $content;
+    protected $author;
+    protected $creationDate;
+    protected $modificationDate;
+    protected $published;
+    protected $userId;
 
 
     //GETTERS    
