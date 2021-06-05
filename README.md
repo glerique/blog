@@ -5,7 +5,7 @@
 
 <hr />
 <p>Code Quality :</p>
-<a href="https://codeclimate.com/github/glerique/blog/maintainability"><img src="https://api.codeclimate.com/v1/badges/7345238ad66e40c55127/maintainability" /></a>
+<a href="https://codeclimate.com/github/glerique/blog/maintainability"><img src="https://api.codeclimate.com/v1/badges/65c1f316fb9eafea41ca/maintainability" /></a>
     
 <hr />
 Installation : 
