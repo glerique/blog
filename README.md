@@ -8,7 +8,7 @@
 <a href="https://codeclimate.com/github/glerique/blog/maintainability"><img src="https://api.codeclimate.com/v1/badges/7345238ad66e40c55127/maintainability" /></a>
     
 <hr />
-Installation
+Installation : 
 
     Clonez le repository.
 
